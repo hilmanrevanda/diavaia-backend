@@ -9,6 +9,16 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Products } from './collections/Products'
+import { ProductCategories } from './collections/ProductCategories'
+import { Colors } from './collections/Colors'
+import { Cuts } from './collections/Cuts'
+import { Clarities } from './collections/Clarities'
+import { Certifications } from './collections/Certifications'
+import { Symmetries } from './collections/Symmetries'
+import { Polishes } from './collections/Polishes'
+import { Fluorescences } from './collections/Fluorescences'
+import { GirdleThicknesses } from './collections/GirdleThicknesses'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -20,7 +30,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Products, ProductCategories, Colors, Cuts, Clarities, Certifications, Symmetries, Polishes, Fluorescences, GirdleThicknesses],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

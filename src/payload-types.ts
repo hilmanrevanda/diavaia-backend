@@ -69,6 +69,16 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    products: Product;
+    'product-categories': ProductCategory;
+    colors: Color;
+    cuts: Cut;
+    clarities: Clarity;
+    certifications: Certification;
+    symmetries: Symmetry;
+    polishes: Polish;
+    fluorescences: Fluorescence;
+    'girdle-thicknesses': GirdleThickness;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,6 +87,16 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
+    'product-categories': ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
+    colors: ColorsSelect<false> | ColorsSelect<true>;
+    cuts: CutsSelect<false> | CutsSelect<true>;
+    clarities: ClaritiesSelect<false> | ClaritiesSelect<true>;
+    certifications: CertificationsSelect<false> | CertificationsSelect<true>;
+    symmetries: SymmetriesSelect<false> | SymmetriesSelect<true>;
+    polishes: PolishesSelect<false> | PolishesSelect<true>;
+    fluorescences: FluorescencesSelect<false> | FluorescencesSelect<true>;
+    'girdle-thicknesses': GirdleThicknessesSelect<false> | GirdleThicknessesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -136,7 +156,7 @@ export interface User {
  */
 export interface Media {
   id: string;
-  alt: string;
+  alt?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -148,6 +168,126 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: string;
+  title: string;
+  featuredImage: string | Media;
+  category: string | ProductCategory;
+  color?: (string | null) | Color;
+  cut?: (string | null) | Cut;
+  clarity?: (string | null) | Clarity;
+  certification?: (string | null) | Certification;
+  symmetry?: (string | null) | Symmetry;
+  polish?: (string | null) | Polish;
+  fluorescence?: (string | null) | Fluorescence;
+  girdleThickness?: (string | null) | GirdleThickness;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-categories".
+ */
+export interface ProductCategory {
+  id: string;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "colors".
+ */
+export interface Color {
+  id: string;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cuts".
+ */
+export interface Cut {
+  id: string;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clarities".
+ */
+export interface Clarity {
+  id: string;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "certifications".
+ */
+export interface Certification {
+  id: string;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "symmetries".
+ */
+export interface Symmetry {
+  id: string;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "polishes".
+ */
+export interface Polish {
+  id: string;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fluorescences".
+ */
+export interface Fluorescence {
+  id: string;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "girdle-thicknesses".
+ */
+export interface GirdleThickness {
+  id: string;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -163,6 +303,46 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: string | Product;
+      } | null)
+    | ({
+        relationTo: 'product-categories';
+        value: string | ProductCategory;
+      } | null)
+    | ({
+        relationTo: 'colors';
+        value: string | Color;
+      } | null)
+    | ({
+        relationTo: 'cuts';
+        value: string | Cut;
+      } | null)
+    | ({
+        relationTo: 'clarities';
+        value: string | Clarity;
+      } | null)
+    | ({
+        relationTo: 'certifications';
+        value: string | Certification;
+      } | null)
+    | ({
+        relationTo: 'symmetries';
+        value: string | Symmetry;
+      } | null)
+    | ({
+        relationTo: 'polishes';
+        value: string | Polish;
+      } | null)
+    | ({
+        relationTo: 'fluorescences';
+        value: string | Fluorescence;
+      } | null)
+    | ({
+        relationTo: 'girdle-thicknesses';
+        value: string | GirdleThickness;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -238,6 +418,120 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  title?: T;
+  featuredImage?: T;
+  category?: T;
+  color?: T;
+  cut?: T;
+  clarity?: T;
+  certification?: T;
+  symmetry?: T;
+  polish?: T;
+  fluorescence?: T;
+  girdleThickness?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-categories_select".
+ */
+export interface ProductCategoriesSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "colors_select".
+ */
+export interface ColorsSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cuts_select".
+ */
+export interface CutsSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clarities_select".
+ */
+export interface ClaritiesSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "certifications_select".
+ */
+export interface CertificationsSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "symmetries_select".
+ */
+export interface SymmetriesSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "polishes_select".
+ */
+export interface PolishesSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fluorescences_select".
+ */
+export interface FluorescencesSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "girdle-thicknesses_select".
+ */
+export interface GirdleThicknessesSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -8,9 +8,20 @@ export const Media: CollectionConfig = {
   fields: [
     {
       name: 'alt',
-      type: 'text',
-      required: true,
+      type: 'text'
     },
   ],
-  upload: true,
+  upload: {
+    staticDir: 'media',
+    imageSizes: [
+      {
+        name: 'thumbnail',
+        width: 400,
+        height: 400,
+        position: 'center',
+      }
+    ],
+    adminThumbnail: 'thumbnail',
+    mimeTypes: ['image/*'],
+  },
 }
