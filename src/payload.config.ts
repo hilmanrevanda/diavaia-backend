@@ -30,7 +30,20 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Products, ProductCategories, Colors, Cuts, Clarities, Certifications, Symmetries, Polishes, Fluorescences, GirdleThicknesses],
+  collections: [
+    Users,
+    Media,
+    Products,
+    ProductCategories,
+    Colors,
+    Cuts,
+    Clarities,
+    Certifications,
+    Symmetries,
+    Polishes,
+    Fluorescences,
+    GirdleThicknesses,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -44,4 +57,8 @@ export default buildConfig({
     payloadCloudPlugin(),
     // storage-adapter-placeholder
   ],
+  graphQL: {
+    disable: false,
+  },
+  cors: '*',
 })
