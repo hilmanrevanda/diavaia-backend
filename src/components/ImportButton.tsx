@@ -1,9 +1,11 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import React, { useRef } from 'react'
 
 export default function ImportButton() {
   const inputRef = useRef<HTMLInputElement>(null)
+  const router = useRouter()
 
   const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -21,16 +23,15 @@ export default function ImportButton() {
       .slice(1)
       .map((cols) => Object.fromEntries(cols.map((val, i) => [headers[i], val])))
 
-    console.log(products)
+    const res = await fetch('/api/products/import-csv', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ products }),
+    })
 
-    // const res = await fetch('/api/products/import-csv', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ products }),
-    // })
-
-    // const result = await res.json()
-    // alert(result.message)
+    const result = await res.json()
+    alert(result.message)
+    router.refresh()
   }
 
   return (
