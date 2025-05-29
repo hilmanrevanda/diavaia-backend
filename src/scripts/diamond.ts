@@ -25,4 +25,5 @@ export async function syncDiamonds() {
     const result = await collection.bulkWrite(operations)
     console.log(`✅ Diamond Batch ${i / batchSize + 1}: ${result.modifiedCount} modified`)
   }
+  await client.close()
 }
