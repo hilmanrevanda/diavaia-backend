@@ -1,18 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import fs from 'fs'
-import path from 'path'
 import { parse } from 'csv-parse'
 import { Client } from 'basic-ftp'
-import { fileURLToPath } from 'url'
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+import { PassThrough } from 'stream'
 
 export async function syncFromFtp(filename: string) {
   console.log('⚙️ Mulai syncFromFtp()')
   const client = new Client(0)
   client.ftp.verbose = false
-
-  const localPath = path.resolve(__dirname, `${filename}`)
 
   try {
     await client.access({
@@ -25,20 +19,22 @@ export async function syncFromFtp(filename: string) {
 
     console.log('📡 Connected to FTP')
 
-    await client.downloadTo(localPath, filename)
-    console.log('✅ File downloaded from FTP.')
-
+    const stream = new PassThrough()
     const results: any[] = []
 
-    await new Promise((resolve, reject) => {
-      fs.createReadStream(localPath)
+    // Mulai download ke stream
+    const downloadPromise = client.downloadTo(stream, filename)
+
+    // Sementara itu, langsung mulai parse stream
+    const parsePromise = new Promise<void>((resolve, reject) => {
+      stream
         .pipe(parse({ columns: true, skip_empty_lines: true }))
         .on('data', (row) => {
           results.push(row)
         })
         .on('end', () => {
           console.log(`📦 Finished parsing CSV with ${results.length} rows.`)
-          resolve(null)
+          resolve()
         })
         .on('error', (err) => {
           console.error('❌ CSV parse error:', err)
@@ -46,6 +42,7 @@ export async function syncFromFtp(filename: string) {
         })
     })
 
+    await Promise.all([downloadPromise, parsePromise])
     return results
   } catch (err) {
     console.error('❌ FTP Sync error:', err)
