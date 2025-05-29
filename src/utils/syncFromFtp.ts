@@ -3,13 +3,16 @@ import fs from 'fs'
 import path from 'path'
 import { parse } from 'csv-parse'
 import { Client } from 'basic-ftp'
+import { fileURLToPath } from 'url'
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 export async function syncFromFtp(filename: string) {
   console.log('⚙️ Mulai syncFromFtp()')
   const client = new Client(0)
   client.ftp.verbose = false
 
-  const localPath = path.resolve(__dirname, `../temp/${filename}`)
+  const localPath = path.resolve(__dirname, `${filename}`)
 
   try {
     await client.access({
