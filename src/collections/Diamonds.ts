@@ -1,22 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { syncFromFtp } from '@/utils/syncFromFtp'
 import { CollectionConfig } from 'payload'
-import { MongoClient } from 'mongodb'
 
-let client: MongoClient
-
-async function getClient() {
-  if (!client) {
-    client = new MongoClient(process.env.DATABASE_URI!)
-    await client.connect()
-  }
-  return client
-}
-
-export const Products: CollectionConfig = {
-  slug: 'products',
+export const Diamonds: CollectionConfig = {
+  slug: 'diamonds',
   admin: {
-    useAsTitle: 'stock_id',
+    useAsTitle: 'diamond_id',
     components: {
       beforeListTable: ['./components/ImportButton'],
     },
@@ -189,107 +178,13 @@ export const Products: CollectionConfig = {
       //     created,
       //   })
       // },
-      handler: async () => {
+      handler: async (req: any) => {
         try {
           const records = await syncFromFtp()
-          const client = await getClient()
-          const db = client.db()
-          const collection = db.collection('products')
-
-          const batchSize = 1000
-          const syncedResults: any = []
-
-          for (let i = 0; i < records.length; i += batchSize) {
-            const batch = records.slice(i, i + batchSize)
-
-            const operations = batch.map((product: any) => ({
-              updateOne: {
-                filter: { diamond_id: product.diamond_id },
-                update: {
-                  $set: {
-                    diamond_id: product.diamond_id,
-                    stock_id: product.stock_id,
-                    report_no: product?.ReportNo,
-                    shape: product?.shape,
-                    full_shape: product?.fullShape,
-                    carats: parseFloat(product?.carats || '0'),
-                    col: product?.col,
-                    clar: product?.clar,
-                    cut: product?.cut,
-                    pol: product?.pol,
-                    symm: product?.symm,
-                    flo: product?.flo,
-                    flo_col: product?.floCol,
-                    eye_clean: product?.eyeClean,
-                    brown: product?.brown,
-                    green: product?.green,
-                    milky: product?.milky,
-                    fancy_color: product?.fancyColor,
-                    fancy_overtone: product?.fancyOvertone,
-                    fancy_intensity: product?.fancyIntensity,
-                    color_shade: product?.colorShade,
-                    length: parseFloat(product?.length || '0'),
-                    width: parseFloat(product?.width || '0'),
-                    height: parseFloat(product?.height || '0'),
-                    depth: parseFloat(product?.depth || '0'),
-                    table: parseFloat(product?.table || '0'),
-                    culet: product?.culet,
-                    girdle: product?.girdle,
-                    star_length: parseFloat(product?.starLength || '0'),
-                    lower_girdle: parseFloat(product?.lowerGirdle || '0'),
-                    crown_height: parseFloat(product?.crownHeight || '0'),
-                    crown_angle: parseFloat(product?.crownAngle || '0'),
-                    pav_angle: parseFloat(product?.pavAngle || '0'),
-                    pav_height: parseFloat(product?.pavHeight || '0'),
-                    pav_depth: parseFloat(product?.pavDepth || '0'),
-                    discount: product?.discount,
-                    price: parseFloat(product?.price || '0'),
-                    markup_price: parseFloat(product?.markup_price || '0'),
-                    markup_currency: product?.markup_currency,
-                    price_per_carat: parseFloat(product?.price_per_carat || '0'),
-                    delivered_price: parseFloat(product?.deliveredPrice || '0'),
-                    lab: product?.lab,
-                    pdf: product?.pdf,
-                    video: product?.video,
-                    image: product?.image,
-                    videos_image_uri: product?.videosImageUri,
-                    videos_frame: parseFloat(product?.videosFrame || '0'),
-                    blue: product?.blue,
-                    gray: product?.gray,
-                    min_delivery_days: parseInt(product?.minDeliveryDays || '0'),
-                    max_delivery_days: parseInt(product?.maxDeliveryDays || '0'),
-                    country: product?.country,
-                    mine_of_origin: product?.mine_of_origin,
-                    canada_mark_eligible: product?.canada_mark_eligible === 'TRUE',
-                    labgrown_type: product?.labgrownType,
-                    lg: product?.lg,
-                    is_returnable: product?.is_returnable === 'Y',
-                    published: false,
-                  },
-                },
-                upsert: true,
-              },
-            }))
-
-            const result = await collection.bulkWrite(operations)
-
-            syncedResults.push({
-              type: 'batch',
-              matchedCount: result.matchedCount,
-              modifiedCount: result.modifiedCount,
-              upsertedCount: result.upsertedCount,
-            })
-
-            console.log(`Processed batch ${i / batchSize + 1}`)
-          }
-
-          return new Response(
-            JSON.stringify({
-              message: `Synced ${records.length} products using bulkWrite`,
-              results: syncedResults,
-            }),
-            { status: 200, headers: { 'Content-Type': 'application/json' } },
-          )
+          return Response.json({
+            message: `Synced ${records.length} products`,
+            preview: records.slice(0, 3), // hanya untuk debugging
+          })
         } catch (err) {
           return new Response(
             JSON.stringify({ error: 'Failed to sync from FTP', detail: String(err) }),

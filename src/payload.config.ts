@@ -6,7 +6,6 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
-
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Products } from './collections/Products'
@@ -75,5 +74,38 @@ export default buildConfig({
     ],
     defaultLocale: 'en',
     fallback: true,
+  },
+  jobs: {
+    tasks: [
+      {
+        slug: 'testTask',
+        handler: async () => {
+          return { output: {} }
+        },
+      },
+    ],
+    workflows: [
+      {
+        slug: 'testWorkflow',
+        queue: 'default',
+        handler: async () => {},
+      },
+    ],
+    shouldAutoRun: async () => {
+      const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      await fetch(`${baseUrl}/api/products/import-csv`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      })
+      return true
+    },
+    autoRun: [
+      {
+        cron: '*/10 * * * *',
+        limit: 10,
+        queue: 'default',
+      },
+    ],
   },
 })
