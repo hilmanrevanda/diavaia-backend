@@ -1,22 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { getClient } from '@/utils/db'
 import { syncFromFtp } from '@/utils/syncFromFtp'
 import { CollectionConfig } from 'payload'
-import { MongoClient } from 'mongodb'
-
-let client: MongoClient
-
-async function getClient() {
-  if (!client) {
-    client = new MongoClient(process.env.DATABASE_URI!)
-    await client.connect()
-  }
-  return client
-}
 
 export const Products: CollectionConfig = {
   slug: 'products',
   admin: {
-    useAsTitle: 'stock_id',
+    useAsTitle: 'diamond_id',
     components: {
       beforeListTable: ['./components/ImportButton'],
     },

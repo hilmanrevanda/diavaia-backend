@@ -1,9 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
-import React, { useRef } from 'react'
+import React from 'react'
 
 export default function ImportButton() {
-  const inputRef = useRef<HTMLInputElement>(null)
-
   const handleImport = async (e: any) => {
     e.preventDefault()
     const res = await fetch('/api/products/import-csv', {
