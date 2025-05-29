@@ -20,6 +20,7 @@ export async function syncDiamonds() {
         update: {
           $set: {
             stock_id: product.stock_id,
+            diamond_id: product.diamond_id,
             report_no: product?.ReportNo,
             shape: product?.shape,
             full_shape: product?.fullShape,
