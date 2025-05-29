@@ -14,8 +14,8 @@ export const Products: CollectionConfig = {
   fields: [
     // 🆔 Identitas
     { name: 'diamond_id', type: 'text', required: true, unique: true },
-    { name: 'stock_id', type: 'text', required: true, unique: true },
-    { name: 'report_no', type: 'text', unique: true },
+    { name: 'stock_id', type: 'text', required: true },
+    { name: 'report_no', type: 'text' },
 
     // 🔷 Karakteristik Diamond
     { name: 'shape', type: 'text' },
@@ -194,7 +194,7 @@ export const Products: CollectionConfig = {
 
             const operations = batch.map((product: any) => ({
               updateOne: {
-                filter: { diamond_id: product.diamond_id },
+                filter: { stock_id: product.stock_id },
                 update: {
                   $set: {
                     diamond_id: product.diamond_id,
