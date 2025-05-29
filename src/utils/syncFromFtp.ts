@@ -4,12 +4,12 @@ import path from 'path'
 import { parse } from 'csv-parse'
 import { Client } from 'basic-ftp'
 
-export async function syncFromFtp() {
+export async function syncFromFtp(filename: string) {
   console.log('⚙️ Mulai syncFromFtp()')
   const client = new Client(0)
   client.ftp.verbose = false
 
-  const localPath = path.resolve(__dirname, 'downloaded.csv')
+  const localPath = path.resolve(__dirname, `../temp/${filename}`)
 
   try {
     await client.access({
@@ -22,7 +22,7 @@ export async function syncFromFtp() {
 
     console.log('📡 Connected to FTP')
 
-    await client.downloadTo(localPath, process.env.FTP_FILE!)
+    await client.downloadTo(localPath, filename)
     console.log('✅ File downloaded from FTP.')
 
     const results: any[] = []

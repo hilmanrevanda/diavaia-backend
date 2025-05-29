@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload'
 
-export const Products: CollectionConfig = {
-  slug: 'products',
+export const Diamonds: CollectionConfig = {
+  slug: 'diamonds',
   admin: {
     useAsTitle: 'diamond_id',
     components: {
@@ -11,7 +11,7 @@ export const Products: CollectionConfig = {
   fields: [
     // 🆔 Identitas
     { name: 'diamond_id', type: 'text', required: true, unique: true },
-    { name: 'stock_id', type: 'text', required: true },
+    { name: 'stock_id', type: 'text', required: true, unique: true },
     { name: 'report_no', type: 'text' },
 
     // 🔷 Karakteristik Diamond
@@ -60,7 +60,7 @@ export const Products: CollectionConfig = {
 
     // 📄 Sertifikat & Media
     { name: 'lab', type: 'text' },
-    { name: 'pdf', type: 'text' }, // bisa pakai type: 'upload' jika ingin mengelola file
+    { name: 'pdf', type: 'text' },
     { name: 'video', type: 'text' },
     { name: 'image', type: 'text' },
     { name: 'videos_image_uri', type: 'text' },
