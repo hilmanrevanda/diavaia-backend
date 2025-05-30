@@ -106,7 +106,7 @@ export async function syncDiamonds() {
         if (buffer.length >= BATCH_SIZE) {
           parser.pause()
           const result = await collection.bulkWrite(buffer)
-          console.log(`✅ Inserted batch: ${result.modifiedCount} modified`)
+          console.log(`✅ Inserted diamond batch: ${result.modifiedCount} modified`)
           totalCount += buffer.length
           buffer = []
           parser.resume()
@@ -116,28 +116,17 @@ export async function syncDiamonds() {
         if (buffer.length > 0) {
           const result = await collection.bulkWrite(buffer)
           totalCount += buffer.length
-          console.log(`✅ Final batch: ${result.modifiedCount} modified`)
+          console.log(`✅ Final diamond batch: ${result.modifiedCount} modified`)
         }
-
         console.log(`🎉 Total ${totalCount} diamond records synced.`)
-
-        if (client) {
-          await client.close()
-        }
       })
       .on('error', async (err) => {
         console.error('❌ Parsing error:', err)
-        if (client) {
-          await client.close()
-        }
       })
 
     await ftp.downloadTo(stream, 'Diavaia Inc._natural.csv')
   } catch (err) {
     console.error('❌ FTP Error:', err)
-    if (client) {
-      await client.close()
-    }
     throw err
   } finally {
     ftp.close()

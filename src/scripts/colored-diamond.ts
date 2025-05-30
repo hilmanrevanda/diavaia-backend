@@ -47,7 +47,7 @@ export async function syncColoredDiamonds() {
         if (buffer.length >= BATCH_SIZE) {
           parser.pause()
           const result = await collection.bulkWrite(buffer)
-          console.log(`✅ Inserted batch: ${result.modifiedCount} modified`)
+          console.log(`✅ Inserted colored diamond batch: ${result.modifiedCount} modified`)
           totalCount += buffer.length
           buffer = []
           parser.resume()
@@ -57,28 +57,17 @@ export async function syncColoredDiamonds() {
         if (buffer.length > 0) {
           const result = await collection.bulkWrite(buffer)
           totalCount += buffer.length
-          console.log(`✅ Final batch: ${result.modifiedCount} modified`)
+          console.log(`✅ Final colored diamond batch: ${result.modifiedCount} modified`)
         }
-
         console.log(`🎉 Total ${totalCount} colored diamond records synced.`)
-
-        if (client) {
-          await client.close()
-        }
       })
       .on('error', async (err) => {
         console.error('❌ Parsing error:', err)
-        if (client) {
-          await client.close()
-        }
       })
 
     await ftp.downloadTo(stream, 'natural-fancy-7.csv')
   } catch (err) {
     console.error('❌ FTP Error:', err)
-    if (client) {
-      await client.close()
-    }
     throw err
   } finally {
     ftp.close()
