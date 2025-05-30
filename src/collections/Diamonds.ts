@@ -81,6 +81,6 @@ export const Diamonds: CollectionConfig = {
     { name: 'is_returnable', type: 'checkbox', defaultValue: false },
 
     // Opsional: publish status & timestamps
-    { name: 'published', type: 'checkbox', defaultValue: false },
+    { name: 'published', type: 'checkbox', defaultValue: true },
   ],
 }

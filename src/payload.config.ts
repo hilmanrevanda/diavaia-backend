@@ -19,6 +19,8 @@ import { Polishes } from './collections/Polishes'
 import { Fluorescences } from './collections/Fluorescences'
 import { GirdleThicknesses } from './collections/GirdleThicknesses'
 import { Diamonds } from './collections/Diamonds'
+import { Jewellery } from './collections/Jewellery'
+import { ColoredDiamond } from './collections/ColoredDiamond'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -35,6 +37,8 @@ export default buildConfig({
     Media,
     Products,
     Diamonds,
+    ColoredDiamond,
+    Jewellery,
     ProductCategories,
     Colors,
     Cuts,

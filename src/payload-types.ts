@@ -71,6 +71,8 @@ export interface Config {
     media: Media;
     products: Product;
     diamonds: Diamond;
+    coloredDiamonds: ColoredDiamond;
+    Jewelleries: Jewellery;
     'product-categories': ProductCategory;
     colors: Color;
     cuts: Cut;
@@ -90,6 +92,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     diamonds: DiamondsSelect<false> | DiamondsSelect<true>;
+    coloredDiamonds: ColoredDiamondsSelect<false> | ColoredDiamondsSelect<true>;
+    Jewelleries: JewelleriesSelect<false> | JewelleriesSelect<true>;
     'product-categories': ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
     colors: ColorsSelect<false> | ColorsSelect<true>;
     cuts: CutsSelect<false> | CutsSelect<true>;
@@ -565,6 +569,92 @@ export interface Diamond {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "coloredDiamonds".
+ */
+export interface ColoredDiamond {
+  id: string;
+  diamond_id: string;
+  stock_id: string;
+  ReportNo?: string | null;
+  shape?: string | null;
+  fullShape?: string | null;
+  carats?: number | null;
+  col?: string | null;
+  clar?: string | null;
+  cut?: string | null;
+  pol?: string | null;
+  symm?: string | null;
+  flo?: string | null;
+  floCol?: number | null;
+  eyeClean?: string | null;
+  brown?: string | null;
+  green?: string | null;
+  milky?: string | null;
+  fancyColor?: string | null;
+  fancyOvertone?: string | null;
+  fancyIntensity?: string | null;
+  colorShade?: string | null;
+  length?: number | null;
+  width?: number | null;
+  height?: number | null;
+  depth?: number | null;
+  table?: number | null;
+  culet?: string | null;
+  girdle?: string | null;
+  starLength?: number | null;
+  lowerGirdle?: number | null;
+  crownHeight?: number | null;
+  crownAngle?: number | null;
+  pavAngle?: number | null;
+  pavHeight?: number | null;
+  pavDepth?: number | null;
+  discount?: string | null;
+  price?: number | null;
+  markup_price?: number | null;
+  markup_currency?: string | null;
+  price_per_carat?: number | null;
+  deliveredPrice?: number | null;
+  lab?: string | null;
+  pdf?: string | null;
+  video?: string | null;
+  image?: string | null;
+  videosImageUri?: string | null;
+  videosFrame?: number | null;
+  blue?: number | null;
+  gray?: number | null;
+  minDeliveryDays?: number | null;
+  maxDeliveryDays?: number | null;
+  country?: string | null;
+  mine_of_origin?: string | null;
+  canada_mark_eligible?: boolean | null;
+  labgrownType?: string | null;
+  lg?: string | null;
+  is_returnable?: boolean | null;
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Jewelleries".
+ */
+export interface Jewellery {
+  id: string;
+  ref_diavaia: string;
+  product_type?: ('Earring' | 'Bracelet' | 'Necklace') | null;
+  metal_type?: string | null;
+  total_stones?: number | null;
+  stone_type?: string | null;
+  stone_colour?: string | null;
+  stone_clarity?: string | null;
+  weight?: number | null;
+  ctw?: number | null;
+  retail_price?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "product-categories".
  */
 export interface ProductCategory {
@@ -675,6 +765,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'diamonds';
         value: string | Diamond;
+      } | null)
+    | ({
+        relationTo: 'coloredDiamonds';
+        value: string | ColoredDiamond;
+      } | null)
+    | ({
+        relationTo: 'Jewelleries';
+        value: string | Jewellery;
       } | null)
     | ({
         relationTo: 'product-categories';
@@ -935,6 +1033,90 @@ export interface DiamondsSelect<T extends boolean = true> {
   lg?: T;
   is_returnable?: T;
   published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "coloredDiamonds_select".
+ */
+export interface ColoredDiamondsSelect<T extends boolean = true> {
+  diamond_id?: T;
+  stock_id?: T;
+  ReportNo?: T;
+  shape?: T;
+  fullShape?: T;
+  carats?: T;
+  col?: T;
+  clar?: T;
+  cut?: T;
+  pol?: T;
+  symm?: T;
+  flo?: T;
+  floCol?: T;
+  eyeClean?: T;
+  brown?: T;
+  green?: T;
+  milky?: T;
+  fancyColor?: T;
+  fancyOvertone?: T;
+  fancyIntensity?: T;
+  colorShade?: T;
+  length?: T;
+  width?: T;
+  height?: T;
+  depth?: T;
+  table?: T;
+  culet?: T;
+  girdle?: T;
+  starLength?: T;
+  lowerGirdle?: T;
+  crownHeight?: T;
+  crownAngle?: T;
+  pavAngle?: T;
+  pavHeight?: T;
+  pavDepth?: T;
+  discount?: T;
+  price?: T;
+  markup_price?: T;
+  markup_currency?: T;
+  price_per_carat?: T;
+  deliveredPrice?: T;
+  lab?: T;
+  pdf?: T;
+  video?: T;
+  image?: T;
+  videosImageUri?: T;
+  videosFrame?: T;
+  blue?: T;
+  gray?: T;
+  minDeliveryDays?: T;
+  maxDeliveryDays?: T;
+  country?: T;
+  mine_of_origin?: T;
+  canada_mark_eligible?: T;
+  labgrownType?: T;
+  lg?: T;
+  is_returnable?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Jewelleries_select".
+ */
+export interface JewelleriesSelect<T extends boolean = true> {
+  ref_diavaia?: T;
+  product_type?: T;
+  metal_type?: T;
+  total_stones?: T;
+  stone_type?: T;
+  stone_colour?: T;
+  stone_clarity?: T;
+  weight?: T;
+  ctw?: T;
+  retail_price?: T;
   updatedAt?: T;
   createdAt?: T;
 }

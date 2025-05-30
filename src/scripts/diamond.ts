@@ -6,8 +6,6 @@ import { PassThrough } from 'stream'
 
 export async function syncDiamonds() {
   console.log('💎 Sync diamond...')
-  console.log('⚙️ Mulai syncFromFtpStreamed()')
-
   const ftp = new Client(0)
   ftp.ftp.verbose = false
   const stream = new PassThrough()
