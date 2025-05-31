@@ -4,7 +4,7 @@ import { Client } from 'basic-ftp'
 import { parse } from 'csv-parse'
 import { PassThrough } from 'stream'
 
-export async function syncDiamonds() {
+export async function syncDiamondsTwo() {
   console.log('💎 Sync diamond...')
   const ftp = new Client(0)
   ftp.ftp.verbose = false
@@ -41,7 +41,7 @@ export async function syncDiamonds() {
               $set: {
                 stock_id: row.stock_id,
                 diamond_id: row.diamond_id,
-                report_no: row?.ReportNo,
+                report_no: row.ReportNo,
                 shape: row?.shape,
                 full_shape: row?.fullShape,
                 carats: parseFloat(row?.carats || 0),
@@ -124,7 +124,7 @@ export async function syncDiamonds() {
         console.error('❌ Parsing error:', err)
       })
 
-    await ftp.downloadTo(stream, 'Diavaia Inc._natural.csv')
+    await ftp.downloadTo(stream, 'natural-white-3.csv')
   } catch (err) {
     console.error('❌ FTP Error:', err)
     throw err

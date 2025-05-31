@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload'
 
-export const Diamonds: CollectionConfig = {
-  slug: 'diamonds',
+export const NaturalDiamonds: CollectionConfig = {
+  slug: 'natural-diamonds',
   admin: {
     useAsTitle: 'diamond_id',
     components: {
@@ -10,8 +10,8 @@ export const Diamonds: CollectionConfig = {
   },
   fields: [
     { name: 'diamond_id', type: 'text', required: true, unique: true },
-    { name: 'stock_id', type: 'text', required: true, unique: true },
-    { name: 'report_no', type: 'text' },
+    { name: 'stock_id', type: 'text', required: true },
+    { name: 'report_no', type: 'text', required: true },
     { name: 'shape', type: 'text' },
     { name: 'full_shape', type: 'text' },
     { name: 'carats', type: 'number' },

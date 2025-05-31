@@ -4,8 +4,8 @@ import { Client } from 'basic-ftp'
 import { parse } from 'csv-parse'
 import { PassThrough } from 'stream'
 
-export async function syncColoredDiamonds() {
-  console.log('💎 Sync colored diamond...')
+export async function syncLabGrownColoredDiamonds() {
+  console.log('💎 Sync Lab colored diamond...')
   const ftp = new Client(0)
   ftp.ftp.verbose = false
   const stream = new PassThrough()
@@ -25,7 +25,7 @@ export async function syncColoredDiamonds() {
 
     client = await getClient()
     const db = client.db()
-    const collection = db.collection('natural-colored-diamonds')
+    const collection = db.collection('laboratory-grown-colored-diamonds')
 
     const BATCH_SIZE = 1000
     let buffer: any[] = []
@@ -47,7 +47,7 @@ export async function syncColoredDiamonds() {
         if (buffer.length >= BATCH_SIZE) {
           parser.pause()
           const result = await collection.bulkWrite(buffer)
-          console.log(`✅ Inserted colored diamond batch: ${result.modifiedCount} modified`)
+          console.log(`✅ Inserted lab colored diamond batch: ${result.modifiedCount} modified`)
           totalCount += buffer.length
           buffer = []
           parser.resume()
@@ -57,15 +57,15 @@ export async function syncColoredDiamonds() {
         if (buffer.length > 0) {
           const result = await collection.bulkWrite(buffer)
           totalCount += buffer.length
-          console.log(`✅ Final colored diamond batch: ${result.modifiedCount} modified`)
+          console.log(`✅ Final lab colored diamond batch: ${result.modifiedCount} modified`)
         }
-        console.log(`🎉 Total ${totalCount} colored diamond records synced.`)
+        console.log(`🎉 Total ${totalCount} lab colored diamond records synced.`)
       })
       .on('error', async (err) => {
         console.error('❌ Parsing error:', err)
       })
 
-    await ftp.downloadTo(stream, 'natural-fancy-7.csv')
+    await ftp.downloadTo(stream, 'labgrown-fancy-6.csv')
   } catch (err) {
     console.error('❌ FTP Error:', err)
     throw err

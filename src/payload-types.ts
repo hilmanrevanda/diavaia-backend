@@ -69,9 +69,9 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    products: Product;
-    diamonds: Diamond;
-    coloredDiamonds: ColoredDiamond;
+    'natural-diamonds': NaturalDiamond;
+    'natural-colored-diamonds': NaturalColoredDiamond;
+    'laboratory-grown-colored-diamonds': LaboratoryGrownColoredDiamond;
     Jewelleries: Jewellery;
     'product-categories': ProductCategory;
     colors: Color;
@@ -90,9 +90,9 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    products: ProductsSelect<false> | ProductsSelect<true>;
-    diamonds: DiamondsSelect<false> | DiamondsSelect<true>;
-    coloredDiamonds: ColoredDiamondsSelect<false> | ColoredDiamondsSelect<true>;
+    'natural-diamonds': NaturalDiamondsSelect<false> | NaturalDiamondsSelect<true>;
+    'natural-colored-diamonds': NaturalColoredDiamondsSelect<false> | NaturalColoredDiamondsSelect<true>;
+    'laboratory-grown-colored-diamonds': LaboratoryGrownColoredDiamondsSelect<false> | LaboratoryGrownColoredDiamondsSelect<true>;
     Jewelleries: JewelleriesSelect<false> | JewelleriesSelect<true>;
     'product-categories': ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
     colors: ColorsSelect<false> | ColorsSelect<true>;
@@ -435,13 +435,13 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "products".
+ * via the `definition` "natural-diamonds".
  */
-export interface Product {
+export interface NaturalDiamond {
   id: string;
   diamond_id: string;
   stock_id: string;
-  report_no?: string | null;
+  report_no: string;
   shape?: string | null;
   full_shape?: string | null;
   carats?: number | null;
@@ -502,15 +502,15 @@ export interface Product {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "diamonds".
+ * via the `definition` "natural-colored-diamonds".
  */
-export interface Diamond {
+export interface NaturalColoredDiamond {
   id: string;
   diamond_id: string;
   stock_id: string;
-  report_no?: string | null;
+  ReportNo: string;
   shape?: string | null;
-  full_shape?: string | null;
+  fullShape?: string | null;
   carats?: number | null;
   col?: string | null;
   clar?: string | null;
@@ -518,15 +518,15 @@ export interface Diamond {
   pol?: string | null;
   symm?: string | null;
   flo?: string | null;
-  flo_col?: string | null;
-  eye_clean?: string | null;
+  floCol?: number | null;
+  eyeClean?: string | null;
   brown?: string | null;
   green?: string | null;
   milky?: string | null;
-  fancy_color?: string | null;
-  fancy_overtone?: string | null;
-  fancy_intensity?: string | null;
-  color_shade?: string | null;
+  fancyColor?: string | null;
+  fancyOvertone?: string | null;
+  fancyIntensity?: string | null;
+  colorShade?: string | null;
   length?: number | null;
   width?: number | null;
   height?: number | null;
@@ -534,33 +534,33 @@ export interface Diamond {
   table?: number | null;
   culet?: string | null;
   girdle?: string | null;
-  star_length?: number | null;
-  lower_girdle?: number | null;
-  crown_height?: number | null;
-  crown_angle?: number | null;
-  pav_angle?: number | null;
-  pav_height?: number | null;
-  pav_depth?: number | null;
+  starLength?: number | null;
+  lowerGirdle?: number | null;
+  crownHeight?: number | null;
+  crownAngle?: number | null;
+  pavAngle?: number | null;
+  pavHeight?: number | null;
+  pavDepth?: number | null;
   discount?: string | null;
   price?: number | null;
   markup_price?: number | null;
   markup_currency?: string | null;
   price_per_carat?: number | null;
-  delivered_price?: number | null;
+  deliveredPrice?: number | null;
   lab?: string | null;
   pdf?: string | null;
   video?: string | null;
   image?: string | null;
-  videos_image_uri?: string | null;
-  videos_frame?: number | null;
-  blue?: string | null;
-  gray?: string | null;
-  min_delivery_days?: number | null;
-  max_delivery_days?: number | null;
+  videosImageUri?: string | null;
+  videosFrame?: number | null;
+  blue?: number | null;
+  gray?: number | null;
+  minDeliveryDays?: number | null;
+  maxDeliveryDays?: number | null;
   country?: string | null;
   mine_of_origin?: string | null;
   canada_mark_eligible?: boolean | null;
-  labgrown_type?: string | null;
+  labgrownType?: string | null;
   lg?: string | null;
   is_returnable?: boolean | null;
   published?: boolean | null;
@@ -569,13 +569,13 @@ export interface Diamond {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "coloredDiamonds".
+ * via the `definition` "laboratory-grown-colored-diamonds".
  */
-export interface ColoredDiamond {
+export interface LaboratoryGrownColoredDiamond {
   id: string;
   diamond_id: string;
   stock_id: string;
-  ReportNo?: string | null;
+  ReportNo: string;
   shape?: string | null;
   fullShape?: string | null;
   carats?: number | null;
@@ -759,16 +759,16 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
-        relationTo: 'products';
-        value: string | Product;
+        relationTo: 'natural-diamonds';
+        value: string | NaturalDiamond;
       } | null)
     | ({
-        relationTo: 'diamonds';
-        value: string | Diamond;
+        relationTo: 'natural-colored-diamonds';
+        value: string | NaturalColoredDiamond;
       } | null)
     | ({
-        relationTo: 'coloredDiamonds';
-        value: string | ColoredDiamond;
+        relationTo: 'laboratory-grown-colored-diamonds';
+        value: string | LaboratoryGrownColoredDiamond;
       } | null)
     | ({
         relationTo: 'Jewelleries';
@@ -906,9 +906,9 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "products_select".
+ * via the `definition` "natural-diamonds_select".
  */
-export interface ProductsSelect<T extends boolean = true> {
+export interface NaturalDiamondsSelect<T extends boolean = true> {
   diamond_id?: T;
   stock_id?: T;
   report_no?: T;
@@ -972,14 +972,14 @@ export interface ProductsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "diamonds_select".
+ * via the `definition` "natural-colored-diamonds_select".
  */
-export interface DiamondsSelect<T extends boolean = true> {
+export interface NaturalColoredDiamondsSelect<T extends boolean = true> {
   diamond_id?: T;
   stock_id?: T;
-  report_no?: T;
+  ReportNo?: T;
   shape?: T;
-  full_shape?: T;
+  fullShape?: T;
   carats?: T;
   col?: T;
   clar?: T;
@@ -987,15 +987,15 @@ export interface DiamondsSelect<T extends boolean = true> {
   pol?: T;
   symm?: T;
   flo?: T;
-  flo_col?: T;
-  eye_clean?: T;
+  floCol?: T;
+  eyeClean?: T;
   brown?: T;
   green?: T;
   milky?: T;
-  fancy_color?: T;
-  fancy_overtone?: T;
-  fancy_intensity?: T;
-  color_shade?: T;
+  fancyColor?: T;
+  fancyOvertone?: T;
+  fancyIntensity?: T;
+  colorShade?: T;
   length?: T;
   width?: T;
   height?: T;
@@ -1003,33 +1003,33 @@ export interface DiamondsSelect<T extends boolean = true> {
   table?: T;
   culet?: T;
   girdle?: T;
-  star_length?: T;
-  lower_girdle?: T;
-  crown_height?: T;
-  crown_angle?: T;
-  pav_angle?: T;
-  pav_height?: T;
-  pav_depth?: T;
+  starLength?: T;
+  lowerGirdle?: T;
+  crownHeight?: T;
+  crownAngle?: T;
+  pavAngle?: T;
+  pavHeight?: T;
+  pavDepth?: T;
   discount?: T;
   price?: T;
   markup_price?: T;
   markup_currency?: T;
   price_per_carat?: T;
-  delivered_price?: T;
+  deliveredPrice?: T;
   lab?: T;
   pdf?: T;
   video?: T;
   image?: T;
-  videos_image_uri?: T;
-  videos_frame?: T;
+  videosImageUri?: T;
+  videosFrame?: T;
   blue?: T;
   gray?: T;
-  min_delivery_days?: T;
-  max_delivery_days?: T;
+  minDeliveryDays?: T;
+  maxDeliveryDays?: T;
   country?: T;
   mine_of_origin?: T;
   canada_mark_eligible?: T;
-  labgrown_type?: T;
+  labgrownType?: T;
   lg?: T;
   is_returnable?: T;
   published?: T;
@@ -1038,9 +1038,9 @@ export interface DiamondsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "coloredDiamonds_select".
+ * via the `definition` "laboratory-grown-colored-diamonds_select".
  */
-export interface ColoredDiamondsSelect<T extends boolean = true> {
+export interface LaboratoryGrownColoredDiamondsSelect<T extends boolean = true> {
   diamond_id?: T;
   stock_id?: T;
   ReportNo?: T;

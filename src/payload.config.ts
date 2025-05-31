@@ -8,7 +8,6 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
-import { Products } from './collections/Products'
 import { ProductCategories } from './collections/ProductCategories'
 import { Colors } from './collections/Colors'
 import { Cuts } from './collections/Cuts'
@@ -18,9 +17,11 @@ import { Symmetries } from './collections/Symmetries'
 import { Polishes } from './collections/Polishes'
 import { Fluorescences } from './collections/Fluorescences'
 import { GirdleThicknesses } from './collections/GirdleThicknesses'
-import { Diamonds } from './collections/Diamonds'
 import { Jewellery } from './collections/Jewellery'
-import { ColoredDiamond } from './collections/ColoredDiamond'
+import { NaturalDiamonds } from './collections/NaturalDiamonds'
+import { NaturalColoredDiamonds } from './collections/NaturalColoredDiamonds'
+import { LaboratoryGrownColoredDiamonds } from './collections/LaboratoryGrownColoredDiamonds'
+import { LaboratoryGrownDiamonds } from './collections/LaboratoryGrownDiamonds'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -35,9 +36,10 @@ export default buildConfig({
   collections: [
     Users,
     Media,
-    Products,
-    Diamonds,
-    ColoredDiamond,
+    NaturalDiamonds,
+    NaturalColoredDiamonds,
+    LaboratoryGrownDiamonds,
+    LaboratoryGrownColoredDiamonds,
     Jewellery,
     ProductCategories,
     Colors,
