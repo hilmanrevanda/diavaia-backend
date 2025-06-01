@@ -34,7 +34,9 @@
     "payload": "3.33.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "sharp": "0.32.6"
+    "redis": "^5.1.1",
+    "sharp": "0.32.6",
+    "stream-transform": "^3.3.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

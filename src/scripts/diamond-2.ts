@@ -3,6 +3,8 @@ import { getClient } from '@/utils/db'
 import { Client } from 'basic-ftp'
 import { parse } from 'csv-parse'
 import { PassThrough } from 'stream'
+import { transform } from 'stream-transform'
+import redis from './redis'
 
 export async function syncDiamondsTwo() {
   console.log('💎 Sync diamond...')
@@ -31,9 +33,14 @@ export async function syncDiamondsTwo() {
     let buffer: any[] = []
     let totalCount = 0
 
-    const parser = stream
-      .pipe(parse({ columns: true, skip_empty_lines: true }))
-      .on('data', async (row) => {
+    const parser = parse({ columns: true, skip_empty_lines: true })
+
+    const transformer = transform({ parallel: 10 }, async (row: any, callback: any) => {
+      try {
+        const skip = await redis.sIsMember('skip_diamond_ids', row.diamond_id)
+        if (skip) return callback()
+        await redis.sAdd('skip_diamond_ids', row.diamond_id)
+
         buffer.push({
           updateOne: {
             filter: { diamond_id: row.diamond_id },
@@ -97,32 +104,41 @@ export async function syncDiamondsTwo() {
                 lg: row?.lg,
                 is_returnable: row?.is_returnable === 'Y',
                 published: true,
+                is_diavaia: false,
               },
             },
             upsert: true,
           },
         })
-
         if (buffer.length >= BATCH_SIZE) {
-          parser.pause()
-          const result = await collection.bulkWrite(buffer)
-          console.log(`✅ Inserted diamond batch: ${result.modifiedCount} modified`)
+          await collection.bulkWrite(buffer)
           totalCount += buffer.length
+          console.log(`✅ Inserted diamond 2 batch of ${buffer.length}`)
           buffer = []
-          parser.resume()
         }
-      })
-      .on('end', async () => {
-        if (buffer.length > 0) {
-          const result = await collection.bulkWrite(buffer)
-          totalCount += buffer.length
-          console.log(`✅ Final diamond batch: ${result.modifiedCount} modified`)
-        }
-        console.log(`🎉 Total ${totalCount} diamond records synced.`)
-      })
-      .on('error', async (err) => {
-        console.error('❌ Parsing error:', err)
-      })
+        callback()
+      } catch (err) {
+        console.error('❌ Transform error:', err)
+        callback(err)
+      }
+    })
+
+    transformer.on('finish', async () => {
+      if (buffer.length > 0) {
+        const result = await collection.bulkWrite(buffer)
+        totalCount += buffer.length
+        console.log(`✅ Final diamond 2 batch: ${result.modifiedCount} modified`)
+      }
+      await redis.del('skip_diamond_ids')
+      console.log(`🧹 Redis cache 'skip_diamond_ids' cleared.`)
+      console.log(`🎉 Total ${totalCount} diamond records synced.`)
+    })
+
+    transformer.on('error', (err) => {
+      console.error('❌ Transformer error:', err)
+    })
+
+    stream.pipe(parser).pipe(transformer)
 
     await ftp.downloadTo(stream, 'natural-white-3.csv')
   } catch (err) {
@@ -130,6 +146,7 @@ export async function syncDiamondsTwo() {
     throw err
   } finally {
     ftp.close()
+    await redis.del('skip_diamond_ids')
     console.log('🔌 FTP connection closed')
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { parse } from 'csv-parse'
 import { Client } from 'basic-ftp'
 import { PassThrough } from 'stream'

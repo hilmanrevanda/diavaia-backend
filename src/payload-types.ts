@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     'natural-diamonds': NaturalDiamond;
     'natural-colored-diamonds': NaturalColoredDiamond;
+    'laboratory-grown-diamonds': LaboratoryGrownDiamond;
     'laboratory-grown-colored-diamonds': LaboratoryGrownColoredDiamond;
     Jewelleries: Jewellery;
     'product-categories': ProductCategory;
@@ -92,6 +93,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     'natural-diamonds': NaturalDiamondsSelect<false> | NaturalDiamondsSelect<true>;
     'natural-colored-diamonds': NaturalColoredDiamondsSelect<false> | NaturalColoredDiamondsSelect<true>;
+    'laboratory-grown-diamonds': LaboratoryGrownDiamondsSelect<false> | LaboratoryGrownDiamondsSelect<true>;
     'laboratory-grown-colored-diamonds': LaboratoryGrownColoredDiamondsSelect<false> | LaboratoryGrownColoredDiamondsSelect<true>;
     Jewelleries: JewelleriesSelect<false> | JewelleriesSelect<true>;
     'product-categories': ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
@@ -496,6 +498,7 @@ export interface NaturalDiamond {
   labgrown_type?: string | null;
   lg?: string | null;
   is_returnable?: boolean | null;
+  is_diavaia?: boolean | null;
   published?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -569,9 +572,9 @@ export interface NaturalColoredDiamond {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "laboratory-grown-colored-diamonds".
+ * via the `definition` "laboratory-grown-diamonds".
  */
-export interface LaboratoryGrownColoredDiamond {
+export interface LaboratoryGrownDiamond {
   id: string;
   diamond_id: string;
   stock_id: string;
@@ -579,21 +582,17 @@ export interface LaboratoryGrownColoredDiamond {
   shape?: string | null;
   fullShape?: string | null;
   carats?: number | null;
-  col?: string | null;
-  clar?: string | null;
+  color?: string | null;
+  clarity?: string | null;
   cut?: string | null;
-  pol?: string | null;
-  symm?: string | null;
-  flo?: string | null;
-  floCol?: number | null;
+  polish?: string | null;
+  symmetry?: string | null;
+  fluorescence?: string | null;
+  fluorescenceColor?: string | null;
   eyeClean?: string | null;
   brown?: string | null;
   green?: string | null;
   milky?: string | null;
-  fancyColor?: string | null;
-  fancyOvertone?: string | null;
-  fancyIntensity?: string | null;
-  colorShade?: string | null;
   length?: number | null;
   width?: number | null;
   height?: number | null;
@@ -605,9 +604,9 @@ export interface LaboratoryGrownColoredDiamond {
   lowerGirdle?: number | null;
   crownHeight?: number | null;
   crownAngle?: number | null;
-  pavAngle?: number | null;
-  pavHeight?: number | null;
-  pavDepth?: number | null;
+  pavilionAngle?: number | null;
+  pavilionHeight?: number | null;
+  pavilionDepth?: number | null;
   discount?: string | null;
   price?: number | null;
   markup_price?: number | null;
@@ -627,9 +626,75 @@ export interface LaboratoryGrownColoredDiamond {
   country?: string | null;
   mine_of_origin?: string | null;
   canada_mark_eligible?: boolean | null;
-  labgrownType?: string | null;
-  lg?: string | null;
   is_returnable?: boolean | null;
+  is_diavaia?: boolean | null;
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "laboratory-grown-colored-diamonds".
+ */
+export interface LaboratoryGrownColoredDiamond {
+  id: string;
+  diamond_id: string;
+  stock_id?: string | null;
+  ReportNo?: string | null;
+  shape?: string | null;
+  carats?: number | null;
+  col?: string | null;
+  clar?: string | null;
+  cut?: string | null;
+  pol?: string | null;
+  symm?: string | null;
+  flo?: string | null;
+  floCol?: string | null;
+  length?: number | null;
+  width?: number | null;
+  height?: number | null;
+  depth?: number | null;
+  table?: number | null;
+  culet?: string | null;
+  lab?: string | null;
+  girdle?: string | null;
+  eyeClean?: string | null;
+  brown?: string | null;
+  green?: string | null;
+  milky?: string | null;
+  discount?: string | null;
+  price?: number | null;
+  price_per_carat?: number | null;
+  video?: string | null;
+  image?: string | null;
+  pdf?: string | null;
+  mine_of_origin?: string | null;
+  canada_mark_eligible?: boolean | null;
+  is_returnable?: boolean | null;
+  lg?: string | null;
+  markup_price?: number | null;
+  markup_currency?: string | null;
+  deliveredPrice?: number | null;
+  minDeliveryDays?: number | null;
+  maxDeliveryDays?: number | null;
+  fancyColor?: string | null;
+  fancyOvertone?: string | null;
+  fancyIntensity?: string | null;
+  crownHeight?: number | null;
+  crownAngle?: number | null;
+  pavAngle?: number | null;
+  pavHeight?: number | null;
+  pavDepth?: number | null;
+  colorShade?: string | null;
+  videosImageUri?: string | null;
+  videosFrame?: number | null;
+  blue?: number | null;
+  gray?: number | null;
+  country?: string | null;
+  labgrownType?: string | null;
+  fullShape?: string | null;
+  starLength?: number | null;
+  lowerGirdle?: number | null;
   published?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -765,6 +830,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'natural-colored-diamonds';
         value: string | NaturalColoredDiamond;
+      } | null)
+    | ({
+        relationTo: 'laboratory-grown-diamonds';
+        value: string | LaboratoryGrownDiamond;
       } | null)
     | ({
         relationTo: 'laboratory-grown-colored-diamonds';
@@ -966,6 +1035,7 @@ export interface NaturalDiamondsSelect<T extends boolean = true> {
   labgrown_type?: T;
   lg?: T;
   is_returnable?: T;
+  is_diavaia?: T;
   published?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1038,30 +1108,26 @@ export interface NaturalColoredDiamondsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "laboratory-grown-colored-diamonds_select".
+ * via the `definition` "laboratory-grown-diamonds_select".
  */
-export interface LaboratoryGrownColoredDiamondsSelect<T extends boolean = true> {
+export interface LaboratoryGrownDiamondsSelect<T extends boolean = true> {
   diamond_id?: T;
   stock_id?: T;
   ReportNo?: T;
   shape?: T;
   fullShape?: T;
   carats?: T;
-  col?: T;
-  clar?: T;
+  color?: T;
+  clarity?: T;
   cut?: T;
-  pol?: T;
-  symm?: T;
-  flo?: T;
-  floCol?: T;
+  polish?: T;
+  symmetry?: T;
+  fluorescence?: T;
+  fluorescenceColor?: T;
   eyeClean?: T;
   brown?: T;
   green?: T;
   milky?: T;
-  fancyColor?: T;
-  fancyOvertone?: T;
-  fancyIntensity?: T;
-  colorShade?: T;
   length?: T;
   width?: T;
   height?: T;
@@ -1073,9 +1139,9 @@ export interface LaboratoryGrownColoredDiamondsSelect<T extends boolean = true> 
   lowerGirdle?: T;
   crownHeight?: T;
   crownAngle?: T;
-  pavAngle?: T;
-  pavHeight?: T;
-  pavDepth?: T;
+  pavilionAngle?: T;
+  pavilionHeight?: T;
+  pavilionDepth?: T;
   discount?: T;
   price?: T;
   markup_price?: T;
@@ -1095,9 +1161,74 @@ export interface LaboratoryGrownColoredDiamondsSelect<T extends boolean = true> 
   country?: T;
   mine_of_origin?: T;
   canada_mark_eligible?: T;
-  labgrownType?: T;
-  lg?: T;
   is_returnable?: T;
+  is_diavaia?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "laboratory-grown-colored-diamonds_select".
+ */
+export interface LaboratoryGrownColoredDiamondsSelect<T extends boolean = true> {
+  diamond_id?: T;
+  stock_id?: T;
+  ReportNo?: T;
+  shape?: T;
+  carats?: T;
+  col?: T;
+  clar?: T;
+  cut?: T;
+  pol?: T;
+  symm?: T;
+  flo?: T;
+  floCol?: T;
+  length?: T;
+  width?: T;
+  height?: T;
+  depth?: T;
+  table?: T;
+  culet?: T;
+  lab?: T;
+  girdle?: T;
+  eyeClean?: T;
+  brown?: T;
+  green?: T;
+  milky?: T;
+  discount?: T;
+  price?: T;
+  price_per_carat?: T;
+  video?: T;
+  image?: T;
+  pdf?: T;
+  mine_of_origin?: T;
+  canada_mark_eligible?: T;
+  is_returnable?: T;
+  lg?: T;
+  markup_price?: T;
+  markup_currency?: T;
+  deliveredPrice?: T;
+  minDeliveryDays?: T;
+  maxDeliveryDays?: T;
+  fancyColor?: T;
+  fancyOvertone?: T;
+  fancyIntensity?: T;
+  crownHeight?: T;
+  crownAngle?: T;
+  pavAngle?: T;
+  pavHeight?: T;
+  pavDepth?: T;
+  colorShade?: T;
+  videosImageUri?: T;
+  videosFrame?: T;
+  blue?: T;
+  gray?: T;
+  country?: T;
+  labgrownType?: T;
+  fullShape?: T;
+  starLength?: T;
+  lowerGirdle?: T;
   published?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -36,7 +36,7 @@ export async function syncLabGrownColoredDiamonds() {
       .on('data', async (row) => {
         buffer.push({
           updateOne: {
-            filter: { stock_id: row.stock_id },
+            filter: { diamond_id: row.diamond_id },
             update: {
               $set: row,
             },

@@ -66,6 +66,7 @@ export const NaturalDiamonds: CollectionConfig = {
     { name: 'labgrown_type', type: 'text' },
     { name: 'lg', type: 'text' },
     { name: 'is_returnable', type: 'checkbox', defaultValue: false },
+    { name: 'is_diavaia', type: 'checkbox', defaultValue: false },
     { name: 'published', type: 'checkbox', defaultValue: true },
   ],
 }

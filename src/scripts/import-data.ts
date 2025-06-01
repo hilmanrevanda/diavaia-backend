@@ -1,29 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import fs from 'fs'
 import { getClient } from '@/utils/db'
-import { Client } from 'basic-ftp'
 import { parse } from 'csv-parse'
-import { PassThrough } from 'stream'
 import { transform } from 'stream-transform'
 import redis from './redis'
+import path from 'path'
 
-export async function syncDiamonds() {
-  console.log('💎 Sync diamond...')
-  const ftp = new Client(0)
-  ftp.ftp.verbose = false
-  const stream = new PassThrough()
+export async function importDiamondsFromLocal(filePath?: string) {
+  console.log('📥 Importing diamonds from local file...')
 
   let client: Awaited<ReturnType<typeof getClient>> | null = null
 
-  try {
-    await ftp.access({
-      host: process.env.FTP_HOST,
-      port: Number(process.env.FTP_PORT) || 21,
-      user: process.env.FTP_USER,
-      password: process.env.FTP_PASSWORD,
-      secure: false,
-    })
+  const resolvedPath = path.resolve(filePath || './data/diamonds.csv')
 
-    console.log('📡 Connected to FTP')
+  try {
+    const fileStream = fs.createReadStream(resolvedPath)
 
     client = await getClient()
     const db = client.db()
@@ -115,7 +106,7 @@ export async function syncDiamonds() {
         if (buffer.length >= BATCH_SIZE) {
           await collection.bulkWrite(buffer)
           totalCount += buffer.length
-          console.log(`✅ Inserted diamond 1 batch of ${buffer.length}`)
+          console.log(`✅ Inserted 1 batch of ${buffer.length}`)
           buffer = []
         }
 
@@ -130,23 +121,18 @@ export async function syncDiamonds() {
       if (buffer.length > 0) {
         const result = await collection.bulkWrite(buffer)
         totalCount += buffer.length
-        console.log(`✅ Final diamond batch: ${result.modifiedCount} modified`)
+        console.log(`✅ Final batch: ${result.modifiedCount} modified`)
       }
-      console.log(`🎉 Total ${totalCount} diamond records synced.`)
+      console.log(`🎉 Total ${totalCount} diamond records imported from local.`)
     })
 
     transformer.on('error', (err) => {
       console.error('❌ Transformer error:', err)
     })
 
-    stream.pipe(parser).pipe(transformer)
-
-    await ftp.downloadTo(stream, 'Diavaia Inc._natural.csv')
+    fileStream.pipe(parser).pipe(transformer)
   } catch (err) {
-    console.error('❌ FTP Error:', err)
+    console.error('❌ Import error:', err)
     throw err
-  } finally {
-    ftp.close()
-    console.log('🔌 FTP connection closed')
   }
 }

@@ -5,7 +5,7 @@ import React from 'react'
 export default function ImportButton() {
   const handleImport = async (e: any) => {
     e.preventDefault()
-    const res = await fetch('/api/products/import-csv', {
+    const res = await fetch('/api/natural-diamonds/imports-data', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({}),
