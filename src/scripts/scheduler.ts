@@ -7,12 +7,12 @@ async function main() {
   let exitCode = 0
 
   try {
-    console.log('🚀 Mulai sync semua produk...')
+    console.log('🚀 Start syncs all products...')
     await syncsDiamond()
     await syncsLaboratoryDiamond()
     await syncsColoredDiamond()
     await syncsLaboratoryColoredDiamond()
-    console.log('🎉 Selesai sync semua produk!')
+    console.log('🎉 Finished sycns all products!')
   } catch (err) {
     console.error('❌ Error sync:', err)
     exitCode = 1

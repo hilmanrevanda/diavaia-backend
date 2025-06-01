@@ -39,63 +39,52 @@ async function streamAndUpsertCSV(
   collection: any,
   skipIds: Set<string>,
 ): Promise<Set<string>> {
-  return new Promise((resolve, reject) => {
-    const validIds = new Set<string>()
-    const bulkOps: any[] = []
-    let lineNumber = 0
+  const validIds = new Set<string>()
+  const bulkOps: any[] = []
 
-    const stream = createReadStream(filePath, { highWaterMark: 64 * 1024 })
-      .pipe(csv())
-      .on('data', async (row) => {
-        lineNumber++
+  const csvStream = createReadStream(filePath, { highWaterMark: 64 * 1024 }).pipe(csv())
 
-        try {
-          if (!row.diamond_id || skipIds.has(row.diamond_id)) return
+  for await (const row of csvStream) {
+    try {
+      if (!row.diamond_id || skipIds.has(row.diamond_id)) continue
 
-          const size = JSON.stringify(row).length
-          if (size > 50000) {
-            console.warn(`⚠️ Skipping large row at line ${lineNumber} (${size} bytes)`)
-            return
-          }
+      const size = JSON.stringify(row).length
+      if (size > 50000) {
+        console.warn(`⚠️ Skipping large row: ${row.diamond_id} (${size} bytes)`)
+        continue
+      }
 
-          validIds.add(row.diamond_id)
+      validIds.add(row.diamond_id)
 
-          bulkOps.push({
-            updateOne: {
-              filter: { diamond_id: row.diamond_id },
-              update: {
-                $set: {
-                  ...row,
-                  published: true,
-                  is_diavaia: true,
-                },
-              },
-              upsert: true,
+      bulkOps.push({
+        updateOne: {
+          filter: { diamond_id: row.diamond_id },
+          update: {
+            $set: {
+              ...row,
+              published: true,
+              is_diavaia: true,
             },
-          })
+          },
+          upsert: true,
+        },
+      })
 
-          if (bulkOps.length >= 500) {
-            stream.pause()
-            await collection.bulkWrite(bulkOps)
-            bulkOps.length = 0
-            stream.resume()
-          }
-        } catch (err: any) {
-          console.error(`❌ Error processing line ${lineNumber}:`, err.message)
-        }
-      })
-      .on('end', async () => {
-        if (bulkOps.length > 0) {
-          await collection.bulkWrite(bulkOps)
-        }
-        console.log(`✅ Finished processing: ${filePath}, total ${validIds.size} items`)
-        resolve(validIds)
-      })
-      .on('error', (err) => {
-        console.error(`❌ CSV stream error on ${filePath}:`, err.message)
-        reject(err)
-      })
-  })
+      if (bulkOps.length >= 500) {
+        await collection.bulkWrite(bulkOps)
+        bulkOps.length = 0
+      }
+    } catch (err: any) {
+      console.error(`❌ Error processing row ${row.diamond_id}:`, err.message)
+    }
+  }
+
+  if (bulkOps.length > 0) {
+    await collection.bulkWrite(bulkOps)
+  }
+
+  console.log(`✅ Finished processing ${filePath} | Total: ${validIds.size} diamonds`)
+  return validIds
 }
 
 async function deleteMissing(collection: any, keepIds: Set<string>) {
@@ -109,14 +98,12 @@ async function deleteMissing(collection: any, keepIds: Set<string>) {
       idsToDelete.push(id)
     }
 
-    // Batas aman
     if (idsToDelete.length >= 1000) {
       await collection.deleteMany({ diamond_id: { $in: idsToDelete } })
       idsToDelete.length = 0
     }
   }
 
-  // Sisa terakhir
   if (idsToDelete.length > 0) {
     await collection.deleteMany({ diamond_id: { $in: idsToDelete } })
   }
@@ -131,19 +118,16 @@ export async function syncsLaboratoryColoredDiamond() {
   const collection = db.collection(COLLECTION_NAME)
 
   try {
-    const aReady = await downloadFile(FILE_A_URL, FILE_A_PATH)
-
-    if (!aReady) {
+    const fileReady = await downloadFile(FILE_A_URL, FILE_A_PATH)
+    if (!fileReady) {
       throw new Error('Missing file')
     }
 
     console.log('⏳ Syncing')
-    const fileAIds = await streamAndUpsertCSV(FILE_A_PATH, collection, new Set())
-
-    const allValidIds = new Set([...fileAIds])
+    const validIds = await streamAndUpsertCSV(FILE_A_PATH, collection, new Set())
 
     console.log('🧹 Deleting outdated items...')
-    await deleteMissing(collection, allValidIds)
+    await deleteMissing(collection, validIds)
   } catch (err: any) {
     console.error('❌ Sync failed:', err.message)
   } finally {
