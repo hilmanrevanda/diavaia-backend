@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import https from 'https'
 import { parse } from 'csv-parse'
 import { transform } from 'stream-transform'
-import { PassThrough } from 'stream'
 import { getClient } from '@/utils/db'
 import redis from './redis'
 
