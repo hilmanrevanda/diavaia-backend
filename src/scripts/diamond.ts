@@ -4,7 +4,6 @@ import { Client } from 'basic-ftp'
 import { parse } from 'csv-parse'
 import { PassThrough } from 'stream'
 import { transform } from 'stream-transform'
-import redis from './redis'
 
 export async function syncDiamonds() {
   console.log('💎 Sync diamond...')
@@ -28,7 +27,7 @@ export async function syncDiamonds() {
     client = await getClient()
     const db = client.db()
     const collection = db.collection('natural-diamonds')
-    await redis.del('skip_diamond_ids')
+    // await redis.del('skip_diamond_ids')
 
     const BATCH_SIZE = 1000
     let buffer: any[] = []
@@ -38,9 +37,9 @@ export async function syncDiamonds() {
 
     const transformer = transform({ parallel: 10 }, async (row: any, callback: any) => {
       try {
-        const skip = await redis.sIsMember('skip_diamond_ids', row.diamond_id)
-        if (skip) return callback()
-        await redis.sAdd('skip_diamond_ids', row.diamond_id)
+        // const skip = await redis.sIsMember('skip_diamond_ids', row.diamond_id)
+        // if (skip) return callback()
+        // await redis.sAdd('skip_diamond_ids', row.diamond_id)
 
         buffer.push({
           updateOne: {

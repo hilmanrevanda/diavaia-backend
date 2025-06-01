@@ -1,10 +1,10 @@
 // import { syncColoredDiamonds } from './colored-diamond'
-// import { syncDiamonds } from './diamond'
+import { syncsDiamond } from './syncs-diamond'
+import { syncsLaboratoryDiamond } from './syncs-laboratory-diamond'
 // import { syncDiamondsTwo } from './diamond-2'
 // import { syncGrownDiamonds } from './grown-diamond'
 // import { syncGrownDiamondsTwo } from './grown-diamond-2'
 // import { syncLabGrownColoredDiamonds } from './lab-grown-colored-diamonds'
-import { syncAllDiamonds } from './syncs-diamond'
 
 async function main() {
   let exitCode = 0
@@ -17,7 +17,9 @@ async function main() {
     // await syncLabGrownColoredDiamonds()
     // await syncGrownDiamonds()
     // await syncGrownDiamondsTwo()
-    await syncAllDiamonds()
+    // await syncAllDiamonds()
+    await syncsDiamond()
+    await syncsLaboratoryDiamond()
     console.log('🎉 Selesai sync semua produk!')
   } catch (err) {
     console.error('❌ Error sync:', err)
