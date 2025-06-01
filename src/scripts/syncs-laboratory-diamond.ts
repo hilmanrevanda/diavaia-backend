@@ -16,7 +16,6 @@ const FILE_DIR = join(process.cwd(), 'data')
 const FILE_A_PATH = join(FILE_DIR, 'laboratory-diamond-diavaia.csv')
 const FILE_B_PATH = join(FILE_DIR, 'laboratory-diamond.csv')
 const MONGO_URI = process.env.DATABASE_URI!
-const DB_NAME = 'diavaia'
 const COLLECTION_NAME = 'laboratory-grown-diamonds'
 
 mkdirSync(FILE_DIR, { recursive: true })
@@ -25,7 +24,13 @@ async function downloadFile(url: string, localPath: string): Promise<boolean> {
   const tempPath = join(tmpdir(), `temp-${Date.now()}-${Math.random()}`)
   try {
     console.log(`🌐 Downloading from ${url}`)
-    const response = await axios({ url, responseType: 'stream', timeout: 30000 })
+    const response = await axios({
+      url,
+      responseType: 'stream',
+      timeout: 300000,
+      // maxContentLength: Infinity,
+      // maxBodyLength: Infinity,
+    })
     const writer = createWriteStream(tempPath)
     response.data.pipe(writer)
     await finished(writer)
@@ -131,7 +136,7 @@ async function deleteMissing(collection: any, keepIds: Set<string>) {
 export async function syncsLaboratoryDiamond() {
   const mongo = new MongoClient(MONGO_URI)
   await mongo.connect()
-  const db = mongo.db(DB_NAME)
+  const db = mongo.db()
   const collection = db.collection(COLLECTION_NAME)
 
   try {

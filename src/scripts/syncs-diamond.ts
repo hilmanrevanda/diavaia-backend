@@ -16,7 +16,6 @@ const FILE_DIR = join(process.cwd(), 'data')
 const FILE_A_PATH = join(FILE_DIR, 'natural-diamond-diavaia.csv')
 const FILE_B_PATH = join(FILE_DIR, 'natural-diamond.csv')
 const MONGO_URI = process.env.DATABASE_URI!
-const DB_NAME = 'diavaia'
 const COLLECTION_NAME = 'natural-diamonds'
 
 mkdirSync(FILE_DIR, { recursive: true })
@@ -187,7 +186,7 @@ async function deleteMissing(collection: any, keepIds: Set<string>) {
 export async function syncsDiamond() {
   const mongo = new MongoClient(MONGO_URI)
   await mongo.connect()
-  const db = mongo.db(DB_NAME)
+  const db = mongo.db()
   const collection = db.collection(COLLECTION_NAME)
 
   try {

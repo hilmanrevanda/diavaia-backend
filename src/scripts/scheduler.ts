@@ -18,7 +18,7 @@ async function main() {
     // await syncGrownDiamonds()
     // await syncGrownDiamondsTwo()
     // await syncAllDiamonds()
-    await syncsDiamond()
+    // await syncsDiamond()
     await syncsLaboratoryDiamond()
     console.log('🎉 Selesai sync semua produk!')
   } catch (err) {
