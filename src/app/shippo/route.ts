@@ -3,7 +3,8 @@ import { getPayload } from 'payload'
 import { Shippo } from "shippo";
 
 const shippo = new Shippo({
-    apiKeyHeader: process.env.SHIPPO_API_TOKEN
+    apiKeyHeader: process.env.SHIPPO_API_TOKEN,
+    shippoApiVersion: "2018-02-08",
 });
 
 export const GET = async () => {
