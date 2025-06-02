@@ -4,9 +4,6 @@ export const LaboratoryGrownColoredDiamonds: CollectionConfig = {
   slug: 'laboratory-grown-colored-diamonds',
   admin: {
     useAsTitle: 'diamond_id',
-    components: {
-      beforeListTable: ['./components/ImportButton'],
-    },
   },
   fields: [
     { name: 'diamond_id', label: 'Diamond ID', type: 'text', required: true, unique: true },
