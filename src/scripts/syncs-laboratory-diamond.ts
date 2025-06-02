@@ -13,11 +13,13 @@ const FILE_A_URL =
 const FILE_B_URL =
   'https://gateway.nivodaapi.net/feeds-api/ftpdownload/12042853-d999-4793-9cc5-d6fda64e3ad3'
 const FILE_DIR = join(process.cwd(), 'data')
+const CACHE_DIR = join(process.cwd(), 'cache')
 const FILE_A_PATH = join(FILE_DIR, 'laboratory-grown-diamonds-diavaia.csv')
 const FILE_B_PATH = join(FILE_DIR, 'laboratory-grown-diamonds.csv')
 const MONGO_URI = process.env.DATABASE_URI!
 const COLLECTION_NAME = 'laboratory-grown-diamonds'
 const STATE_PATH = join(FILE_DIR, 'sync-state.json')
+const VALID_IDS_PATH = join(CACHE_DIR, `${COLLECTION_NAME}-valid-ids.json`)
 
 mkdirSync(FILE_DIR, { recursive: true })
 
@@ -215,6 +217,11 @@ export async function syncsLaboratoryDiamond() {
 
     const allValidIds = new Set<string>()
 
+    if (existsSync(VALID_IDS_PATH)) {
+      const cached = JSON.parse(await fsPromises.readFile(VALID_IDS_PATH, 'utf-8'))
+      cached.forEach((id: string) => allValidIds.add(id))
+    }
+
     for (const file of files) {
       if (processedFiles.includes(file.name)) {
         console.log(`✅ Skipping already processed ${file.name}`)
@@ -244,8 +251,14 @@ export async function syncsLaboratoryDiamond() {
     // Jika semua file sudah selesai, lakukan cleanup delete missing data
     if (processedFiles.length === files.length) {
       console.log('🧹 Cleaning up old data...')
-      await deleteMissing(collection, allValidIds)
+      if (allValidIds.size < 10000) {
+        console.warn('⚠️ Delete cancelled!!')
+      } else {
+        await deleteMissing(collection, allValidIds)
+      }
       // Reset state supaya proses bisa mulai dari awal di run berikutnya
+      await fsPromises.writeFile(VALID_IDS_PATH, JSON.stringify([...allValidIds], null, 2))
+
       await saveState({ processedFiles: [] })
     }
   } finally {
