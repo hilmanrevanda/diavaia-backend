@@ -13,13 +13,16 @@ const FILE_A_URL =
 const FILE_B_URL =
   'https://gateway.nivodaapi.net/feeds-api/ftpdownload/12042853-d999-4793-9cc5-d6fda64e3ad3'
 const FILE_DIR = join(process.cwd(), 'data')
+const CACHE_DIR = join(process.cwd(), 'cache')
 const FILE_A_PATH = join(FILE_DIR, 'laboratory-grown-diamonds-diavaia.csv')
 const FILE_B_PATH = join(FILE_DIR, 'laboratory-grown-diamonds.csv')
 const MONGO_URI = process.env.DATABASE_URI!
 const COLLECTION_NAME = 'laboratory-grown-diamonds'
 const STATE_PATH = join(FILE_DIR, 'sync-state.json')
+const VALID_IDS_PATH = join(CACHE_DIR, `${COLLECTION_NAME}-valid-ids.json`)
 
 mkdirSync(FILE_DIR, { recursive: true })
+mkdirSync(CACHE_DIR, { recursive: true })
 
 async function downloadFile(url: string, localPath: string): Promise<boolean> {
   const tempPath = join(tmpdir(), `temp-${Date.now()}-${Math.random()}`)
@@ -73,25 +76,21 @@ async function streamAndUpsertCSV(
             $set: {
               stock_id: row.stock_id,
               diamond_id: row.diamond_id,
-              report_no: row.ReportNo,
+              reportNo: row.ReportNo,
               shape: row.shape,
-              full_shape: row.fullShape,
+              fullShape: row.fullShape,
               carats: parseFloat(row.carats || '0'),
-              col: row.col,
-              clar: row.clar,
+              color: row.color,
+              clarity: row.clarity,
               cut: row.cut,
-              pol: row.pol,
-              symm: row.symm,
-              flo: row.flo,
-              flo_col: row.floCol,
-              eye_clean: row.eyeClean,
+              polish: row.polish,
+              symmetry: row.symmetry,
+              fluorescence: row.fluorescence,
+              fluorescenceColor: row.fluorescenceColor,
+              eyeClean: row.eyeClean,
               brown: row.brown,
               green: row.green,
               milky: row.milky,
-              fancy_color: row.fancyColor,
-              fancy_overtone: row.fancyOvertone,
-              fancy_intensity: row.fancyIntensity,
-              color_shade: row.colorShade,
               length: parseFloat(row.length || '0'),
               width: parseFloat(row.width || '0'),
               height: parseFloat(row.height || '0'),
@@ -99,34 +98,32 @@ async function streamAndUpsertCSV(
               table: parseFloat(row.table || '0'),
               culet: row.culet,
               girdle: row.girdle,
-              star_length: parseFloat(row.starLength || '0'),
-              lower_girdle: parseFloat(row.lowerGirdle || '0'),
-              crown_height: parseFloat(row.crownHeight || '0'),
-              crown_angle: parseFloat(row.crownAngle || '0'),
-              pav_angle: parseFloat(row.pavAngle || '0'),
-              pav_height: parseFloat(row.pavHeight || '0'),
-              pav_depth: parseFloat(row.pavDepth || '0'),
+              starLength: parseFloat(row.starLength || '0'),
+              lowerGirdle: parseFloat(row.lowerGirdle || '0'),
+              crownHeight: parseFloat(row.crownHeight || '0'),
+              crownAngle: parseFloat(row.crownAngle || '0'),
+              pavilionAngle: parseFloat(row.pavilionAngle || '0'),
+              pavilionHeight: parseFloat(row.pavilionHeight || '0'),
+              pavilionDepth: parseFloat(row.pavilionDepth || '0'),
               discount: row.discount,
               price: parseFloat(row.price || '0'),
               markup_price: parseFloat(row.markup_price || '0'),
               markup_currency: row.markup_currency,
               price_per_carat: parseFloat(row.price_per_carat || '0'),
-              delivered_price: parseFloat(row.deliveredPrice || '0'),
+              deliveredPrice: parseFloat(row.deliveredPrice || '0'),
               lab: row.lab,
               pdf: row.pdf,
               video: row.video,
               image: row.image,
-              videos_image_uri: row.videosImageUri,
-              videos_frame: parseFloat(row.videosFrame || '0'),
+              videosImageUri: row.videosImageUri,
+              videosFrame: parseFloat(row.videosFrame || '0'),
               blue: row.blue,
               gray: row.gray,
-              min_delivery_days: parseInt(row.minDeliveryDays || '0'),
-              max_delivery_days: parseInt(row.maxDeliveryDays || '0'),
+              minDeliveryDays: parseInt(row.minDeliveryDays || '0'),
+              maxDeliveryDays: parseInt(row.maxDeliveryDays || '0'),
               country: row.country,
               mine_of_origin: row.mine_of_origin,
               canada_mark_eligible: row.canada_mark_eligible === 'TRUE',
-              labgrown_type: row.labgrownType,
-              lg: row.lg,
               is_returnable: row.is_returnable === 'Y',
               published: true,
               is_diavaia: filePath.includes('diavaia'),
@@ -221,6 +218,11 @@ export async function syncsLaboratoryDiamond() {
 
     const allValidIds = new Set<string>()
 
+    if (existsSync(VALID_IDS_PATH)) {
+      const cached = JSON.parse(await fsPromises.readFile(VALID_IDS_PATH, 'utf-8'))
+      cached.forEach((id: string) => allValidIds.add(id))
+    }
+
     for (const file of files) {
       if (processedFiles.includes(file.name)) {
         console.log(`✅ Skipping already processed ${file.name}`)
@@ -250,8 +252,14 @@ export async function syncsLaboratoryDiamond() {
     // Jika semua file sudah selesai, lakukan cleanup delete missing data
     if (processedFiles.length === files.length) {
       console.log('🧹 Cleaning up old data...')
-      await deleteMissing(collection, allValidIds)
+      if (allValidIds.size < 10000) {
+        console.warn('⚠️ Delete cancelled!!')
+      } else {
+        await deleteMissing(collection, allValidIds)
+      }
       // Reset state supaya proses bisa mulai dari awal di run berikutnya
+      await fsPromises.writeFile(VALID_IDS_PATH, JSON.stringify([...allValidIds], null, 2))
+
       await saveState({ processedFiles: [] })
     }
   } finally {

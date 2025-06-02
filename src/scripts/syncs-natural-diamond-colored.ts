@@ -145,7 +145,6 @@ async function streamAndUpsertCSV(
                 lg: row.lg,
                 is_returnable: row.is_returnable === 'Y',
                 published: true,
-                is_diavaia: true,
               },
             },
             upsert: true,

@@ -2,11 +2,11 @@ import { CollectionConfig } from 'payload'
 
 export const NaturalDiamonds: CollectionConfig = {
   slug: 'natural-diamonds',
+  access: {
+    read: () => true,
+  },
   admin: {
     useAsTitle: 'diamond_id',
-    components: {
-      beforeListTable: ['./components/ImportButton'],
-    },
   },
   fields: [
     { name: 'diamond_id', type: 'text', required: true, unique: true },
