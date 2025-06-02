@@ -22,6 +22,7 @@ const STATE_PATH = join(FILE_DIR, 'sync-state.json')
 const VALID_IDS_PATH = join(CACHE_DIR, `${COLLECTION_NAME}-valid-ids.json`)
 
 mkdirSync(FILE_DIR, { recursive: true })
+mkdirSync(CACHE_DIR, { recursive: true })
 
 async function downloadFile(url: string, localPath: string): Promise<boolean> {
   const tempPath = join(tmpdir(), `temp-${Date.now()}-${Math.random()}`)
