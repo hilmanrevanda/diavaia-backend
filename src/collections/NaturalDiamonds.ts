@@ -69,4 +69,24 @@ export const NaturalDiamonds: CollectionConfig = {
     { name: 'is_diavaia', type: 'checkbox', defaultValue: false },
     { name: 'published', type: 'checkbox', defaultValue: true },
   ],
+  indexes: [
+    {
+      fields: ['diamond_id'],
+    },
+    {
+      fields: ['markup_price'],
+    },
+    {
+      fields: ['carats'],
+    },
+    {
+      fields: ['col'],
+    },
+    {
+      fields: ['clar'],
+    },
+    {
+      fields: ['cut'],
+    },
+  ],
 }
