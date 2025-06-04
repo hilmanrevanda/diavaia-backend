@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createReadStream, existsSync, renameSync, mkdirSync } from 'fs'
 import { finished } from 'stream/promises'
-import { createWriteStream, promises as fsPromises } from 'fs'
+import { createWriteStream } from 'fs'
 import { tmpdir } from 'os'
 import { join } from 'path'
 import csv from 'csv-parser'
@@ -9,17 +9,12 @@ import { MongoClient } from 'mongodb'
 import axios from 'axios'
 
 const FILE_A_URL =
-  'https://gateway.nivodaapi.net/feeds-api/ftpdownload/f1bb4b3c-e938-408a-8a2d-0a67c19cf0c4'
-const FILE_B_URL =
   'https://gateway.nivodaapi.net/feeds-api/ftpdownload/12042853-d999-4793-9cc5-d6fda64e3ad3'
 const FILE_DIR = join(process.cwd(), 'data')
 const CACHE_DIR = join(process.cwd(), 'cache')
-const FILE_A_PATH = join(FILE_DIR, 'laboratory-grown-diamonds-diavaia.csv')
-const FILE_B_PATH = join(FILE_DIR, 'laboratory-grown-diamonds.csv')
+const FILE_A_PATH = join(FILE_DIR, 'laboratory-grown-diamonds.csv')
 const MONGO_URI = process.env.DATABASE_URI!
 const COLLECTION_NAME = 'laboratory-grown-diamonds'
-const STATE_PATH = join(FILE_DIR, 'sync-state.json')
-const VALID_IDS_PATH = join(CACHE_DIR, `${COLLECTION_NAME}-valid-ids.json`)
 
 mkdirSync(FILE_DIR, { recursive: true })
 mkdirSync(CACHE_DIR, { recursive: true })
@@ -173,96 +168,24 @@ async function deleteMissing(collection: any, keepIds: Set<string>) {
   console.log(`🧹 Deleted outdated diamonds`)
 }
 
-async function loadState() {
-  try {
-    const raw = await fsPromises.readFile(STATE_PATH, 'utf-8')
-    return JSON.parse(raw)
-  } catch {
-    return { processedFiles: [] }
-  }
-}
-
-async function saveState(state: any) {
-  await fsPromises.writeFile(STATE_PATH, JSON.stringify(state, null, 2))
-}
-
-async function processFileWithTimeout(
-  filePath: string,
-  collection: any,
-  skipIds: Set<string>,
-  timeoutMs = 10 * 60 * 1000, // 10 minutes timeout
-) {
-  return Promise.race([
-    streamAndUpsertCSV(filePath, collection, skipIds),
-    new Promise((_, reject) =>
-      setTimeout(() => reject(new Error(`Timeout processing ${filePath}`)), timeoutMs),
-    ),
-  ])
-}
-
 export async function syncsLaboratoryDiamond() {
   const mongo = new MongoClient(MONGO_URI)
   await mongo.connect()
-  const db = mongo.db()
-  const collection = db.collection(COLLECTION_NAME)
-  await collection.createIndex({ diamond_id: 1 }, { unique: true })
-
-  const state = await loadState()
-  const processedFiles: string[] = state.processedFiles || []
+  const collection = mongo.db().collection(COLLECTION_NAME)
 
   try {
-    const files = [
-      { url: FILE_A_URL, path: FILE_A_PATH, name: 'FILE_A' },
-      { url: FILE_B_URL, path: FILE_B_PATH, name: 'FILE_B' },
-    ]
+    const aReady = await downloadFile(FILE_A_URL, FILE_A_PATH)
+    if (!aReady) throw new Error('Missing file')
 
-    const allValidIds = new Set<string>()
+    console.log('⏳ Syncing')
+    const fileAIds = await streamAndUpsertCSV(FILE_A_PATH, collection, new Set())
 
-    if (existsSync(VALID_IDS_PATH)) {
-      const cached = JSON.parse(await fsPromises.readFile(VALID_IDS_PATH, 'utf-8'))
-      cached.forEach((id: string) => allValidIds.add(id))
-    }
-
-    for (const file of files) {
-      if (processedFiles.includes(file.name)) {
-        console.log(`✅ Skipping already processed ${file.name}`)
-
-        // Jika sudah diproses, kita bisa load diamond_ids dari file tersebut untuk hapus data lama
-        // Untuk performa, kamu bisa simpan validIds ke file saat proses stream selesai di streamAndUpsertCSV,
-        // tapi untuk sekarang abaikan dan tambahkan secara manual atau lewat fungsi tambahan.
-        continue
-      }
-
-      const ready = await downloadFile(file.url, file.path)
-      if (!ready) throw new Error(`Failed to download ${file.name}`)
-
-      console.log(`⏳ Processing ${file.name}`)
-      try {
-        const validIds: any = await processFileWithTimeout(file.path, collection, new Set())
-        validIds.forEach((id: any) => allValidIds.add(id))
-        processedFiles.push(file.name)
-        await saveState({ processedFiles })
-        console.log(`🎉 Processed ${file.name}`)
-      } catch (err) {
-        console.error(`❌ Error processing ${file.name}:`, err)
-        break // Stop on error or timeout, next scheduler run will resume
-      }
-    }
-
-    // Jika semua file sudah selesai, lakukan cleanup delete missing data
-    if (processedFiles.length === files.length) {
-      console.log('🧹 Cleaning up old data...')
-      if (allValidIds.size < 10000) {
-        console.warn('⚠️ Delete cancelled!!')
-      } else {
-        await deleteMissing(collection, allValidIds)
-      }
-      // Reset state supaya proses bisa mulai dari awal di run berikutnya
-      await fsPromises.writeFile(VALID_IDS_PATH, JSON.stringify([...allValidIds], null, 2))
-
-      await saveState({ processedFiles: [] })
-    }
+    console.log('🧹 Deleting outdated items...')
+    await deleteMissing(collection, fileAIds)
+  } catch (err: any) {
+    console.error('❌ Sync failed:', err.message)
   } finally {
     await mongo.close()
+    console.log('🔌 MongoDB connection closed')
   }
 }

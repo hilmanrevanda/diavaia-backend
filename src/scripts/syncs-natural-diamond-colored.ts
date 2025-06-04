@@ -43,7 +43,7 @@ async function streamAndUpsertCSV(
     const validIds = new Set<string>()
     const bulkOps: any[] = []
     let lineNumber = 0
-    let processing = 0 // track operasi async yang sedang berjalan
+    let processing = 0
     let streamEnded = false
     let errorOccurred = false
 
@@ -64,7 +64,7 @@ async function streamAndUpsertCSV(
     }
 
     stream.on('data', (row) => {
-      stream.pause() // pause stream supaya tidak overload memori
+      stream.pause()
 
       lineNumber++
       try {

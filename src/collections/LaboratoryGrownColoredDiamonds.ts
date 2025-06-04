@@ -5,6 +5,9 @@ export const LaboratoryGrownColoredDiamonds: CollectionConfig = {
   admin: {
     useAsTitle: 'diamond_id',
   },
+  access: {
+    read: () => true,
+  },
   fields: [
     { name: 'diamond_id', label: 'Diamond ID', type: 'text', required: true, unique: true },
     { name: 'stock_id', label: 'Stock ID', type: 'text' },
