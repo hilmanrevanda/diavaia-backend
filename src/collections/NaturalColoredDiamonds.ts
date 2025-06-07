@@ -3,6 +3,7 @@ import { CollectionConfig } from 'payload'
 export const NaturalColoredDiamonds: CollectionConfig = {
   slug: 'natural-colored-diamonds',
   admin: {
+    group: 'Products',
     useAsTitle: 'diamond_id',
   },
   access: {

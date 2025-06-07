@@ -3,6 +3,7 @@ import { CollectionConfig } from 'payload'
 export const LaboratoryGrownColoredDiamonds: CollectionConfig = {
   slug: 'laboratory-grown-colored-diamonds',
   admin: {
+    group: 'Products',
     useAsTitle: 'diamond_id',
   },
   access: {

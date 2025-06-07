@@ -4,6 +4,7 @@ import { CollectionConfig } from 'payload'
 export const Jewellery: CollectionConfig = {
   slug: 'Jewelleries',
   admin: {
+    group: 'Products',
     useAsTitle: 'ref_diavaia',
     components: {
       beforeListTable: ['./components/ImportButton'],

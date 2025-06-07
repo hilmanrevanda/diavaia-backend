@@ -74,15 +74,6 @@ export interface Config {
     'laboratory-grown-diamonds': LaboratoryGrownDiamond;
     'laboratory-grown-colored-diamonds': LaboratoryGrownColoredDiamond;
     Jewelleries: Jewellery;
-    'product-categories': ProductCategory;
-    colors: Color;
-    cuts: Cut;
-    clarities: Clarity;
-    certifications: Certification;
-    symmetries: Symmetry;
-    polishes: Polish;
-    fluorescences: Fluorescence;
-    'girdle-thicknesses': GirdleThickness;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -96,15 +87,6 @@ export interface Config {
     'laboratory-grown-diamonds': LaboratoryGrownDiamondsSelect<false> | LaboratoryGrownDiamondsSelect<true>;
     'laboratory-grown-colored-diamonds': LaboratoryGrownColoredDiamondsSelect<false> | LaboratoryGrownColoredDiamondsSelect<true>;
     Jewelleries: JewelleriesSelect<false> | JewelleriesSelect<true>;
-    'product-categories': ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
-    colors: ColorsSelect<false> | ColorsSelect<true>;
-    cuts: CutsSelect<false> | CutsSelect<true>;
-    clarities: ClaritiesSelect<false> | ClaritiesSelect<true>;
-    certifications: CertificationsSelect<false> | CertificationsSelect<true>;
-    symmetries: SymmetriesSelect<false> | SymmetriesSelect<true>;
-    polishes: PolishesSelect<false> | PolishesSelect<true>;
-    fluorescences: FluorescencesSelect<false> | FluorescencesSelect<true>;
-    'girdle-thicknesses': GirdleThicknessesSelect<false> | GirdleThicknessesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -728,96 +710,6 @@ export interface Jewellery {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "product-categories".
- */
-export interface ProductCategory {
-  id: number;
-  title: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "colors".
- */
-export interface Color {
-  id: number;
-  title: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "cuts".
- */
-export interface Cut {
-  id: number;
-  title: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "clarities".
- */
-export interface Clarity {
-  id: number;
-  title: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "certifications".
- */
-export interface Certification {
-  id: number;
-  title: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "symmetries".
- */
-export interface Symmetry {
-  id: number;
-  title: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "polishes".
- */
-export interface Polish {
-  id: number;
-  title: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "fluorescences".
- */
-export interface Fluorescence {
-  id: number;
-  title: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "girdle-thicknesses".
- */
-export interface GirdleThickness {
-  id: number;
-  title: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -850,42 +742,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'Jewelleries';
         value: number | Jewellery;
-      } | null)
-    | ({
-        relationTo: 'product-categories';
-        value: number | ProductCategory;
-      } | null)
-    | ({
-        relationTo: 'colors';
-        value: number | Color;
-      } | null)
-    | ({
-        relationTo: 'cuts';
-        value: number | Cut;
-      } | null)
-    | ({
-        relationTo: 'clarities';
-        value: number | Clarity;
-      } | null)
-    | ({
-        relationTo: 'certifications';
-        value: number | Certification;
-      } | null)
-    | ({
-        relationTo: 'symmetries';
-        value: number | Symmetry;
-      } | null)
-    | ({
-        relationTo: 'polishes';
-        value: number | Polish;
-      } | null)
-    | ({
-        relationTo: 'fluorescences';
-        value: number | Fluorescence;
-      } | null)
-    | ({
-        relationTo: 'girdle-thicknesses';
-        value: number | GirdleThickness;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1264,87 +1120,6 @@ export interface JewelleriesSelect<T extends boolean = true> {
   weight?: T;
   ctw?: T;
   retail_price?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "product-categories_select".
- */
-export interface ProductCategoriesSelect<T extends boolean = true> {
-  title?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "colors_select".
- */
-export interface ColorsSelect<T extends boolean = true> {
-  title?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "cuts_select".
- */
-export interface CutsSelect<T extends boolean = true> {
-  title?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "clarities_select".
- */
-export interface ClaritiesSelect<T extends boolean = true> {
-  title?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "certifications_select".
- */
-export interface CertificationsSelect<T extends boolean = true> {
-  title?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "symmetries_select".
- */
-export interface SymmetriesSelect<T extends boolean = true> {
-  title?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "polishes_select".
- */
-export interface PolishesSelect<T extends boolean = true> {
-  title?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "fluorescences_select".
- */
-export interface FluorescencesSelect<T extends boolean = true> {
-  title?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "girdle-thicknesses_select".
- */
-export interface GirdleThicknessesSelect<T extends boolean = true> {
-  title?: T;
   updatedAt?: T;
   createdAt?: T;
 }

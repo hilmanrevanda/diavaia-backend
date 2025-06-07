@@ -11,15 +11,6 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
-import { ProductCategories } from './collections/ProductCategories'
-import { Colors } from './collections/Colors'
-import { Cuts } from './collections/Cuts'
-import { Clarities } from './collections/Clarities'
-import { Certifications } from './collections/Certifications'
-import { Symmetries } from './collections/Symmetries'
-import { Polishes } from './collections/Polishes'
-import { Fluorescences } from './collections/Fluorescences'
-import { GirdleThicknesses } from './collections/GirdleThicknesses'
 import { Jewellery } from './collections/Jewellery'
 import { NaturalDiamonds } from './collections/NaturalDiamonds'
 import { NaturalColoredDiamonds } from './collections/NaturalColoredDiamonds'
@@ -43,16 +34,7 @@ export default buildConfig({
     NaturalColoredDiamonds,
     LaboratoryGrownDiamonds,
     LaboratoryGrownColoredDiamonds,
-    Jewellery,
-    ProductCategories,
-    Colors,
-    Cuts,
-    Clarities,
-    Certifications,
-    Symmetries,
-    Polishes,
-    Fluorescences,
-    GirdleThicknesses,
+    Jewellery
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

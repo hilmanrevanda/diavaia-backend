@@ -6,6 +6,7 @@ export const NaturalDiamonds: CollectionConfig = {
     read: () => true,
   },
   admin: {
+    group: 'Products',
     useAsTitle: 'diamond_id',
   },
   fields: [
