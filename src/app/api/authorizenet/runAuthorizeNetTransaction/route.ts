@@ -114,7 +114,7 @@ export const POST = async (req: NextRequest) => {
 
   const apiLoginId = process.env.AUTHORIZE_LOGIN_ID;
   const transactionKey = process.env.AUTHORIZE_TRANSACTION_KEY;
-  const environment = (process.env.ENVIRONMENT as "sandbox" | "production") || "sandbox";
+  const environment = (process.env.AUTHORIZE_ENVIRONMENT as "sandbox" | "production") || "sandbox";
 
   if (!apiLoginId || !transactionKey) {
     return new Response(
