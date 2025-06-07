@@ -11,6 +11,8 @@
 package-lock.json
 
 /data
+/src/scripts/data
+/src/scripts/temp
 
 /.idea/*
 !/.idea/runConfigurations

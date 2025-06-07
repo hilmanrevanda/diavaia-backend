@@ -110,7 +110,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   globals: {};
   globalsSelect: {};
@@ -146,7 +146,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   civility: 'mx' | 'mr' | 'mrs' | 'ms';
   firstName: string;
   lastName: string;
@@ -411,7 +411,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -440,7 +440,7 @@ export interface Media {
  * via the `definition` "natural-diamonds".
  */
 export interface NaturalDiamond {
-  id: string;
+  id: number;
   diamond_id: string;
   stock_id: string;
   report_no: string;
@@ -508,12 +508,12 @@ export interface NaturalDiamond {
  * via the `definition` "natural-colored-diamonds".
  */
 export interface NaturalColoredDiamond {
-  id: string;
+  id: number;
   diamond_id: string;
   stock_id: string;
-  ReportNo: string;
+  report_no: string;
   shape?: string | null;
-  fullShape?: string | null;
+  full_shape?: string | null;
   carats?: number | null;
   col?: string | null;
   clar?: string | null;
@@ -521,15 +521,15 @@ export interface NaturalColoredDiamond {
   pol?: string | null;
   symm?: string | null;
   flo?: string | null;
-  floCol?: number | null;
-  eyeClean?: string | null;
+  flo_col?: string | null;
+  eye_clean?: string | null;
   brown?: string | null;
   green?: string | null;
   milky?: string | null;
-  fancyColor?: string | null;
-  fancyOvertone?: string | null;
-  fancyIntensity?: string | null;
-  colorShade?: string | null;
+  fancy_color?: string | null;
+  fancy_overtone?: string | null;
+  fancy_intensity?: string | null;
+  color_shade?: string | null;
   length?: number | null;
   width?: number | null;
   height?: number | null;
@@ -537,35 +537,36 @@ export interface NaturalColoredDiamond {
   table?: number | null;
   culet?: string | null;
   girdle?: string | null;
-  starLength?: number | null;
-  lowerGirdle?: number | null;
-  crownHeight?: number | null;
-  crownAngle?: number | null;
-  pavAngle?: number | null;
-  pavHeight?: number | null;
-  pavDepth?: number | null;
+  star_length?: number | null;
+  lower_girdle?: number | null;
+  crown_height?: number | null;
+  crown_angle?: number | null;
+  pav_angle?: number | null;
+  pav_height?: number | null;
+  pav_depth?: number | null;
   discount?: string | null;
   price?: number | null;
   markup_price?: number | null;
   markup_currency?: string | null;
   price_per_carat?: number | null;
-  deliveredPrice?: number | null;
+  delivered_price?: number | null;
   lab?: string | null;
   pdf?: string | null;
   video?: string | null;
   image?: string | null;
-  videosImageUri?: string | null;
-  videosFrame?: number | null;
-  blue?: number | null;
-  gray?: number | null;
-  minDeliveryDays?: number | null;
-  maxDeliveryDays?: number | null;
+  videos_image_uri?: string | null;
+  videos_frame?: number | null;
+  blue?: string | null;
+  gray?: string | null;
+  min_delivery_days?: number | null;
+  max_delivery_days?: number | null;
   country?: string | null;
   mine_of_origin?: string | null;
   canada_mark_eligible?: boolean | null;
-  labgrownType?: string | null;
+  labgrown_type?: string | null;
   lg?: string | null;
   is_returnable?: boolean | null;
+  is_diavaia?: boolean | null;
   published?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -575,24 +576,28 @@ export interface NaturalColoredDiamond {
  * via the `definition` "laboratory-grown-diamonds".
  */
 export interface LaboratoryGrownDiamond {
-  id: string;
+  id: number;
   diamond_id: string;
   stock_id: string;
-  ReportNo: string;
+  report_no: string;
   shape?: string | null;
-  fullShape?: string | null;
+  full_shape?: string | null;
   carats?: number | null;
-  color?: string | null;
-  clarity?: string | null;
+  col?: string | null;
+  clar?: string | null;
   cut?: string | null;
-  polish?: string | null;
-  symmetry?: string | null;
-  fluorescence?: string | null;
-  fluorescenceColor?: string | null;
-  eyeClean?: string | null;
+  pol?: string | null;
+  symm?: string | null;
+  flo?: string | null;
+  flo_col?: string | null;
+  eye_clean?: string | null;
   brown?: string | null;
   green?: string | null;
   milky?: string | null;
+  fancy_color?: string | null;
+  fancy_overtone?: string | null;
+  fancy_intensity?: string | null;
+  color_shade?: string | null;
   length?: number | null;
   width?: number | null;
   height?: number | null;
@@ -600,32 +605,34 @@ export interface LaboratoryGrownDiamond {
   table?: number | null;
   culet?: string | null;
   girdle?: string | null;
-  starLength?: number | null;
-  lowerGirdle?: number | null;
-  crownHeight?: number | null;
-  crownAngle?: number | null;
-  pavilionAngle?: number | null;
-  pavilionHeight?: number | null;
-  pavilionDepth?: number | null;
+  star_length?: number | null;
+  lower_girdle?: number | null;
+  crown_height?: number | null;
+  crown_angle?: number | null;
+  pav_angle?: number | null;
+  pav_height?: number | null;
+  pav_depth?: number | null;
   discount?: string | null;
   price?: number | null;
   markup_price?: number | null;
   markup_currency?: string | null;
   price_per_carat?: number | null;
-  deliveredPrice?: number | null;
+  delivered_price?: number | null;
   lab?: string | null;
   pdf?: string | null;
   video?: string | null;
   image?: string | null;
-  videosImageUri?: string | null;
-  videosFrame?: number | null;
-  blue?: number | null;
-  gray?: number | null;
-  minDeliveryDays?: number | null;
-  maxDeliveryDays?: number | null;
+  videos_image_uri?: string | null;
+  videos_frame?: number | null;
+  blue?: string | null;
+  gray?: string | null;
+  min_delivery_days?: number | null;
+  max_delivery_days?: number | null;
   country?: string | null;
   mine_of_origin?: string | null;
   canada_mark_eligible?: boolean | null;
+  labgrown_type?: string | null;
+  lg?: string | null;
   is_returnable?: boolean | null;
   is_diavaia?: boolean | null;
   published?: boolean | null;
@@ -637,11 +644,12 @@ export interface LaboratoryGrownDiamond {
  * via the `definition` "laboratory-grown-colored-diamonds".
  */
 export interface LaboratoryGrownColoredDiamond {
-  id: string;
+  id: number;
   diamond_id: string;
-  stock_id?: string | null;
-  ReportNo?: string | null;
+  stock_id: string;
+  report_no: string;
   shape?: string | null;
+  full_shape?: string | null;
   carats?: number | null;
   col?: string | null;
   clar?: string | null;
@@ -649,52 +657,52 @@ export interface LaboratoryGrownColoredDiamond {
   pol?: string | null;
   symm?: string | null;
   flo?: string | null;
-  floCol?: string | null;
+  flo_col?: string | null;
+  eye_clean?: string | null;
+  brown?: string | null;
+  green?: string | null;
+  milky?: string | null;
+  fancy_color?: string | null;
+  fancy_overtone?: string | null;
+  fancy_intensity?: string | null;
+  color_shade?: string | null;
   length?: number | null;
   width?: number | null;
   height?: number | null;
   depth?: number | null;
   table?: number | null;
   culet?: string | null;
-  lab?: string | null;
   girdle?: string | null;
-  eyeClean?: string | null;
-  brown?: string | null;
-  green?: string | null;
-  milky?: string | null;
+  star_length?: number | null;
+  lower_girdle?: number | null;
+  crown_height?: number | null;
+  crown_angle?: number | null;
+  pav_angle?: number | null;
+  pav_height?: number | null;
+  pav_depth?: number | null;
   discount?: string | null;
   price?: number | null;
-  price_per_carat?: number | null;
-  video?: string | null;
-  image?: string | null;
-  pdf?: string | null;
-  mine_of_origin?: string | null;
-  canada_mark_eligible?: boolean | null;
-  is_returnable?: boolean | null;
-  lg?: string | null;
   markup_price?: number | null;
   markup_currency?: string | null;
-  deliveredPrice?: number | null;
-  minDeliveryDays?: number | null;
-  maxDeliveryDays?: number | null;
-  fancyColor?: string | null;
-  fancyOvertone?: string | null;
-  fancyIntensity?: string | null;
-  crownHeight?: number | null;
-  crownAngle?: number | null;
-  pavAngle?: number | null;
-  pavHeight?: number | null;
-  pavDepth?: number | null;
-  colorShade?: string | null;
-  videosImageUri?: string | null;
-  videosFrame?: number | null;
-  blue?: number | null;
-  gray?: number | null;
+  price_per_carat?: number | null;
+  delivered_price?: number | null;
+  lab?: string | null;
+  pdf?: string | null;
+  video?: string | null;
+  image?: string | null;
+  videos_image_uri?: string | null;
+  videos_frame?: number | null;
+  blue?: string | null;
+  gray?: string | null;
+  min_delivery_days?: number | null;
+  max_delivery_days?: number | null;
   country?: string | null;
-  labgrownType?: string | null;
-  fullShape?: string | null;
-  starLength?: number | null;
-  lowerGirdle?: number | null;
+  mine_of_origin?: string | null;
+  canada_mark_eligible?: boolean | null;
+  labgrown_type?: string | null;
+  lg?: string | null;
+  is_returnable?: boolean | null;
+  is_diavaia?: boolean | null;
   published?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -704,7 +712,7 @@ export interface LaboratoryGrownColoredDiamond {
  * via the `definition` "Jewelleries".
  */
 export interface Jewellery {
-  id: string;
+  id: number;
   ref_diavaia: string;
   product_type?: ('Earring' | 'Bracelet' | 'Necklace') | null;
   metal_type?: string | null;
@@ -723,7 +731,7 @@ export interface Jewellery {
  * via the `definition` "product-categories".
  */
 export interface ProductCategory {
-  id: string;
+  id: number;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -733,7 +741,7 @@ export interface ProductCategory {
  * via the `definition` "colors".
  */
 export interface Color {
-  id: string;
+  id: number;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -743,7 +751,7 @@ export interface Color {
  * via the `definition` "cuts".
  */
 export interface Cut {
-  id: string;
+  id: number;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -753,7 +761,7 @@ export interface Cut {
  * via the `definition` "clarities".
  */
 export interface Clarity {
-  id: string;
+  id: number;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -763,7 +771,7 @@ export interface Clarity {
  * via the `definition` "certifications".
  */
 export interface Certification {
-  id: string;
+  id: number;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -773,7 +781,7 @@ export interface Certification {
  * via the `definition` "symmetries".
  */
 export interface Symmetry {
-  id: string;
+  id: number;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -783,7 +791,7 @@ export interface Symmetry {
  * via the `definition` "polishes".
  */
 export interface Polish {
-  id: string;
+  id: number;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -793,7 +801,7 @@ export interface Polish {
  * via the `definition` "fluorescences".
  */
 export interface Fluorescence {
-  id: string;
+  id: number;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -803,7 +811,7 @@ export interface Fluorescence {
  * via the `definition` "girdle-thicknesses".
  */
 export interface GirdleThickness {
-  id: string;
+  id: number;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -813,76 +821,76 @@ export interface GirdleThickness {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
       } | null)
     | ({
         relationTo: 'natural-diamonds';
-        value: string | NaturalDiamond;
+        value: number | NaturalDiamond;
       } | null)
     | ({
         relationTo: 'natural-colored-diamonds';
-        value: string | NaturalColoredDiamond;
+        value: number | NaturalColoredDiamond;
       } | null)
     | ({
         relationTo: 'laboratory-grown-diamonds';
-        value: string | LaboratoryGrownDiamond;
+        value: number | LaboratoryGrownDiamond;
       } | null)
     | ({
         relationTo: 'laboratory-grown-colored-diamonds';
-        value: string | LaboratoryGrownColoredDiamond;
+        value: number | LaboratoryGrownColoredDiamond;
       } | null)
     | ({
         relationTo: 'Jewelleries';
-        value: string | Jewellery;
+        value: number | Jewellery;
       } | null)
     | ({
         relationTo: 'product-categories';
-        value: string | ProductCategory;
+        value: number | ProductCategory;
       } | null)
     | ({
         relationTo: 'colors';
-        value: string | Color;
+        value: number | Color;
       } | null)
     | ({
         relationTo: 'cuts';
-        value: string | Cut;
+        value: number | Cut;
       } | null)
     | ({
         relationTo: 'clarities';
-        value: string | Clarity;
+        value: number | Clarity;
       } | null)
     | ({
         relationTo: 'certifications';
-        value: string | Certification;
+        value: number | Certification;
       } | null)
     | ({
         relationTo: 'symmetries';
-        value: string | Symmetry;
+        value: number | Symmetry;
       } | null)
     | ({
         relationTo: 'polishes';
-        value: string | Polish;
+        value: number | Polish;
       } | null)
     | ({
         relationTo: 'fluorescences';
-        value: string | Fluorescence;
+        value: number | Fluorescence;
       } | null)
     | ({
         relationTo: 'girdle-thicknesses';
-        value: string | GirdleThickness;
+        value: number | GirdleThickness;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -892,10 +900,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -915,7 +923,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -1047,9 +1055,9 @@ export interface NaturalDiamondsSelect<T extends boolean = true> {
 export interface NaturalColoredDiamondsSelect<T extends boolean = true> {
   diamond_id?: T;
   stock_id?: T;
-  ReportNo?: T;
+  report_no?: T;
   shape?: T;
-  fullShape?: T;
+  full_shape?: T;
   carats?: T;
   col?: T;
   clar?: T;
@@ -1057,15 +1065,15 @@ export interface NaturalColoredDiamondsSelect<T extends boolean = true> {
   pol?: T;
   symm?: T;
   flo?: T;
-  floCol?: T;
-  eyeClean?: T;
+  flo_col?: T;
+  eye_clean?: T;
   brown?: T;
   green?: T;
   milky?: T;
-  fancyColor?: T;
-  fancyOvertone?: T;
-  fancyIntensity?: T;
-  colorShade?: T;
+  fancy_color?: T;
+  fancy_overtone?: T;
+  fancy_intensity?: T;
+  color_shade?: T;
   length?: T;
   width?: T;
   height?: T;
@@ -1073,35 +1081,36 @@ export interface NaturalColoredDiamondsSelect<T extends boolean = true> {
   table?: T;
   culet?: T;
   girdle?: T;
-  starLength?: T;
-  lowerGirdle?: T;
-  crownHeight?: T;
-  crownAngle?: T;
-  pavAngle?: T;
-  pavHeight?: T;
-  pavDepth?: T;
+  star_length?: T;
+  lower_girdle?: T;
+  crown_height?: T;
+  crown_angle?: T;
+  pav_angle?: T;
+  pav_height?: T;
+  pav_depth?: T;
   discount?: T;
   price?: T;
   markup_price?: T;
   markup_currency?: T;
   price_per_carat?: T;
-  deliveredPrice?: T;
+  delivered_price?: T;
   lab?: T;
   pdf?: T;
   video?: T;
   image?: T;
-  videosImageUri?: T;
-  videosFrame?: T;
+  videos_image_uri?: T;
+  videos_frame?: T;
   blue?: T;
   gray?: T;
-  minDeliveryDays?: T;
-  maxDeliveryDays?: T;
+  min_delivery_days?: T;
+  max_delivery_days?: T;
   country?: T;
   mine_of_origin?: T;
   canada_mark_eligible?: T;
-  labgrownType?: T;
+  labgrown_type?: T;
   lg?: T;
   is_returnable?: T;
+  is_diavaia?: T;
   published?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1113,21 +1122,25 @@ export interface NaturalColoredDiamondsSelect<T extends boolean = true> {
 export interface LaboratoryGrownDiamondsSelect<T extends boolean = true> {
   diamond_id?: T;
   stock_id?: T;
-  ReportNo?: T;
+  report_no?: T;
   shape?: T;
-  fullShape?: T;
+  full_shape?: T;
   carats?: T;
-  color?: T;
-  clarity?: T;
+  col?: T;
+  clar?: T;
   cut?: T;
-  polish?: T;
-  symmetry?: T;
-  fluorescence?: T;
-  fluorescenceColor?: T;
-  eyeClean?: T;
+  pol?: T;
+  symm?: T;
+  flo?: T;
+  flo_col?: T;
+  eye_clean?: T;
   brown?: T;
   green?: T;
   milky?: T;
+  fancy_color?: T;
+  fancy_overtone?: T;
+  fancy_intensity?: T;
+  color_shade?: T;
   length?: T;
   width?: T;
   height?: T;
@@ -1135,32 +1148,34 @@ export interface LaboratoryGrownDiamondsSelect<T extends boolean = true> {
   table?: T;
   culet?: T;
   girdle?: T;
-  starLength?: T;
-  lowerGirdle?: T;
-  crownHeight?: T;
-  crownAngle?: T;
-  pavilionAngle?: T;
-  pavilionHeight?: T;
-  pavilionDepth?: T;
+  star_length?: T;
+  lower_girdle?: T;
+  crown_height?: T;
+  crown_angle?: T;
+  pav_angle?: T;
+  pav_height?: T;
+  pav_depth?: T;
   discount?: T;
   price?: T;
   markup_price?: T;
   markup_currency?: T;
   price_per_carat?: T;
-  deliveredPrice?: T;
+  delivered_price?: T;
   lab?: T;
   pdf?: T;
   video?: T;
   image?: T;
-  videosImageUri?: T;
-  videosFrame?: T;
+  videos_image_uri?: T;
+  videos_frame?: T;
   blue?: T;
   gray?: T;
-  minDeliveryDays?: T;
-  maxDeliveryDays?: T;
+  min_delivery_days?: T;
+  max_delivery_days?: T;
   country?: T;
   mine_of_origin?: T;
   canada_mark_eligible?: T;
+  labgrown_type?: T;
+  lg?: T;
   is_returnable?: T;
   is_diavaia?: T;
   published?: T;
@@ -1174,8 +1189,9 @@ export interface LaboratoryGrownDiamondsSelect<T extends boolean = true> {
 export interface LaboratoryGrownColoredDiamondsSelect<T extends boolean = true> {
   diamond_id?: T;
   stock_id?: T;
-  ReportNo?: T;
+  report_no?: T;
   shape?: T;
+  full_shape?: T;
   carats?: T;
   col?: T;
   clar?: T;
@@ -1183,52 +1199,52 @@ export interface LaboratoryGrownColoredDiamondsSelect<T extends boolean = true> 
   pol?: T;
   symm?: T;
   flo?: T;
-  floCol?: T;
+  flo_col?: T;
+  eye_clean?: T;
+  brown?: T;
+  green?: T;
+  milky?: T;
+  fancy_color?: T;
+  fancy_overtone?: T;
+  fancy_intensity?: T;
+  color_shade?: T;
   length?: T;
   width?: T;
   height?: T;
   depth?: T;
   table?: T;
   culet?: T;
-  lab?: T;
   girdle?: T;
-  eyeClean?: T;
-  brown?: T;
-  green?: T;
-  milky?: T;
+  star_length?: T;
+  lower_girdle?: T;
+  crown_height?: T;
+  crown_angle?: T;
+  pav_angle?: T;
+  pav_height?: T;
+  pav_depth?: T;
   discount?: T;
   price?: T;
-  price_per_carat?: T;
-  video?: T;
-  image?: T;
-  pdf?: T;
-  mine_of_origin?: T;
-  canada_mark_eligible?: T;
-  is_returnable?: T;
-  lg?: T;
   markup_price?: T;
   markup_currency?: T;
-  deliveredPrice?: T;
-  minDeliveryDays?: T;
-  maxDeliveryDays?: T;
-  fancyColor?: T;
-  fancyOvertone?: T;
-  fancyIntensity?: T;
-  crownHeight?: T;
-  crownAngle?: T;
-  pavAngle?: T;
-  pavHeight?: T;
-  pavDepth?: T;
-  colorShade?: T;
-  videosImageUri?: T;
-  videosFrame?: T;
+  price_per_carat?: T;
+  delivered_price?: T;
+  lab?: T;
+  pdf?: T;
+  video?: T;
+  image?: T;
+  videos_image_uri?: T;
+  videos_frame?: T;
   blue?: T;
   gray?: T;
+  min_delivery_days?: T;
+  max_delivery_days?: T;
   country?: T;
-  labgrownType?: T;
-  fullShape?: T;
-  starLength?: T;
-  lowerGirdle?: T;
+  mine_of_origin?: T;
+  canada_mark_eligible?: T;
+  labgrown_type?: T;
+  lg?: T;
+  is_returnable?: T;
+  is_diavaia?: T;
   published?: T;
   updatedAt?: T;
   createdAt?: T;
