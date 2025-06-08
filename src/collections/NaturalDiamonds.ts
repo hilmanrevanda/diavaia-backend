@@ -7,6 +7,7 @@ export const NaturalDiamonds: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'stock_id',
+    group: 'Products',
   },
   fields: [
     { name: 'stock_id', type: 'text', required: true },

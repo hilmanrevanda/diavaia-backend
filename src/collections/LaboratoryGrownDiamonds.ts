@@ -4,6 +4,7 @@ export const LaboratoryGrownDiamonds: CollectionConfig = {
   slug: 'laboratory-grown-diamonds',
   admin: {
     useAsTitle: 'stock_id',
+    group: 'Products',
   },
   access: {
     read: () => true,

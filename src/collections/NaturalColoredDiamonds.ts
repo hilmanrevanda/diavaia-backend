@@ -4,6 +4,7 @@ export const NaturalColoredDiamonds: CollectionConfig = {
   slug: 'natural-colored-diamonds',
   admin: {
     useAsTitle: 'stock_id',
+    group: 'Products',
   },
   access: {
     read: () => true,
