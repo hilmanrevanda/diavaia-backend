@@ -1,13 +1,13 @@
 import duckdb from 'duckdb'
 
-export async function updateDuckDBFromPostgres() {
+export async function updateDuckDBFromPostgres(table: string) {
   const db = new duckdb.Database('./data.duckdb')
 
-  await db.run(`DELETE FROM diamonds`)
+  await db.run(`DELETE FROM laboratory_grown_colored_diamonds`)
 
   await db.run(`
-    INSERT INTO diamonds
-    SELECT * FROM postgres_read('postgresql://user:pass@localhost/dbname', 'public.diamonds')
+    INSERT INTO ${table}
+    SELECT * FROM postgres_read('${process.env.DATABASE_URI}', 'public.${table}')
   `)
 
   console.log('📊 DuckDB updated from PostgreSQL.')

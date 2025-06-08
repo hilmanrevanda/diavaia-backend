@@ -1,129 +1,189 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from 'fs'
-import csv from 'csv-parser'
+import { parse } from 'fast-csv'
 import { Pool } from 'pg'
-import { CSV_PATH } from './config'
+import { POSTGRES_URL } from './config'
 
-// Setup PostgreSQL connection pool
-const pool = new Pool({
-  host: 'localhost',
-  port: 5432,
-  user: 'zuanda',
-  password: 'abgamijuan21',
-  database: 'diavaia',
-})
+const pool = new Pool({ connectionString: POSTGRES_URL })
 
-export async function parseAndInsertToPostgres(): Promise<void> {
-  const batchSize = 500
-  const buffer: any[] = []
+export async function syncToPostgres(csvPath: string, table: string): Promise<void> {
+  console.log('⏳ Syncing CSV to PostgreSQL...')
+  const client = await pool.connect()
+  const BATCH_SIZE = 500
+  const rows: any[] = []
 
   return new Promise((resolve, reject) => {
-    fs.createReadStream(CSV_PATH)
-      .pipe(csv())
-      .on('data', async (row) => {
-        const doc = {
-          diamond_id: row.diamond_id,
-          stock_id: row.stock_id,
-          report_no: row.ReportNo,
-          shape: row.shape,
-          full_shape: row.fullShape,
-          carats: parseFloat(row.carats || '0'),
-          col: row.col,
-          clar: row.clar,
-          cut: row.cut,
-          pol: row.pol,
-          symm: row.symm,
-          flo: row.flo,
-          flo_col: row.floCol,
-          eye_clean: row.eyeClean,
-          brown: row.brown,
-          green: row.green,
-          milky: row.milky,
-          fancy_color: row.fancyColor,
-          fancy_overtone: row.fancyOvertone,
-          fancy_intensity: row.fancyIntensity,
-          color_shade: row.colorShade,
-          length: parseFloat(row.length || '0'),
-          width: parseFloat(row.width || '0'),
-          height: parseFloat(row.height || '0'),
-          depth: parseFloat(row.depth || '0'),
-          table: parseFloat(row.table || '0'),
-          culet: row.culet,
-          girdle: row.girdle,
-          star_length: parseFloat(row.starLength || '0'),
-          lower_girdle: parseFloat(row.lowerGirdle || '0'),
-          crown_height: parseFloat(row.crownHeight || '0'),
-          crown_angle: parseFloat(row.crownAngle || '0'),
-          pav_angle: parseFloat(row.pavAngle || '0'),
-          pav_height: parseFloat(row.pavHeight || '0'),
-          pav_depth: parseFloat(row.pavDepth || '0'),
-          discount: row.discount,
-          price: parseFloat(row.price || '0'),
-          markup_price: parseFloat(row.markup_price || '0'),
-          markup_currency: row.markup_currency,
-          price_per_carat: parseFloat(row.price_per_carat || '0'),
-          delivered_price: parseFloat(row.deliveredPrice || '0'),
-          lab: row.lab,
-          pdf: row.pdf,
-          video: row.video,
-          image: row.image,
-          videos_image_uri: row.videosImageUri,
-          videos_frame: parseFloat(row.videosFrame || '0'),
-          blue: row.blue,
-          gray: row.gray,
-          min_delivery_days: parseInt(row.minDeliveryDays || '0'),
-          max_delivery_days: parseInt(row.maxDeliveryDays || '0'),
-          country: row.country,
-          mine_of_origin: row.mine_of_origin,
-          canada_mark_eligible: row.canada_mark_eligible === 'TRUE',
-          labgrown_type: row.labgrownType,
-          lg: row.lg,
-          is_returnable: row.is_returnable === 'Y',
-          is_diavaia: true,
-          published: true,
-        }
-
-        buffer.push(doc)
-
-        if (buffer.length >= batchSize) {
-          await insertBatch(buffer.splice(0, batchSize))
+    fs.createReadStream(csvPath)
+      .pipe(parse({ headers: true }))
+      .on('error', (error) => {
+        console.error('❌ CSV Parse Error:', error)
+        reject(error)
+      })
+      .on('data', (row) => {
+        rows.push(row)
+        if (rows.length >= BATCH_SIZE) {
+          const batch = [...rows]
+          rows.length = 0
+          insertBatch(batch, client, table).catch(reject)
         }
       })
       .on('end', async () => {
-        if (buffer.length > 0) {
-          await insertBatch(buffer)
-        }
-        console.log('✅ Done inserting CSV to PostgreSQL.')
+        if (rows.length > 0) await insertBatch(rows, client, table).catch(reject)
+        console.log('✅ CSV synced to PostgreSQL.')
+        client.release()
         resolve()
-      })
-      .on('error', (err) => {
-        console.error('❌ CSV Error:', err)
-        reject(err)
       })
   })
 }
 
-async function insertBatch(batch: any[]) {
-  const client = await pool.connect()
-  try {
-    const fields = Object.keys(batch[0])
-    const escapedFields = fields.map((f) => `"${f}"`) // Escape dengan double quotes
+async function insertBatch(batch: any[], client: any, table: string) {
+  if (batch.length === 0) return
 
-    const values = batch.map(Object.values)
+  const query = `
+    INSERT INTO ${table} (
+      id, stock_id, report_no, shape, full_shape, carats,
+      col, clar, cut, pol, symm, flo, flo_col, eye_clean,
+      brown, green, milky, fancy_color, fancy_overtone, fancy_intensity, color_shade,
+      length, width, height, depth, "table", culet, girdle,
+      star_length, lower_girdle, crown_height, crown_angle,
+      pav_angle, pav_height, pav_depth,
+      discount, price, markup_price, markup_currency, price_per_carat, delivered_price,
+      lab, pdf, video, image, videos_image_uri, videos_frame,
+      blue, gray, min_delivery_days, max_delivery_days,
+      country, mine_of_origin, canada_mark_eligible,
+      labgrown_type, lg, is_returnable, is_diavaia, published
+    ) VALUES
+    ${batch
+      .map(
+        (_, i) =>
+          `(${Array(59)
+            .fill(0)
+            .map((_, j) => `$${i * 59 + j + 1}`)
+            .join(', ')})`,
+      )
+      .join(',\n')}
+    ON CONFLICT (id) DO UPDATE SET
+      stock_id = EXCLUDED.stock_id,
+      report_no = EXCLUDED.report_no,
+      shape = EXCLUDED.shape,
+      full_shape = EXCLUDED.full_shape,
+      carats = EXCLUDED.carats,
+      col = EXCLUDED.col,
+      clar = EXCLUDED.clar,
+      cut = EXCLUDED.cut,
+      pol = EXCLUDED.pol,
+      symm = EXCLUDED.symm,
+      flo = EXCLUDED.flo,
+      flo_col = EXCLUDED.flo_col,
+      eye_clean = EXCLUDED.eye_clean,
+      brown = EXCLUDED.brown,
+      green = EXCLUDED.green,
+      milky = EXCLUDED.milky,
+      fancy_color = EXCLUDED.fancy_color,
+      fancy_overtone = EXCLUDED.fancy_overtone,
+      fancy_intensity = EXCLUDED.fancy_intensity,
+      color_shade = EXCLUDED.color_shade,
+      length = EXCLUDED.length,
+      width = EXCLUDED.width,
+      height = EXCLUDED.height,
+      depth = EXCLUDED.depth,
+      "table" = EXCLUDED."table",
+      culet = EXCLUDED.culet,
+      girdle = EXCLUDED.girdle,
+      star_length = EXCLUDED.star_length,
+      lower_girdle = EXCLUDED.lower_girdle,
+      crown_height = EXCLUDED.crown_height,
+      crown_angle = EXCLUDED.crown_angle,
+      pav_angle = EXCLUDED.pav_angle,
+      pav_height = EXCLUDED.pav_height,
+      pav_depth = EXCLUDED.pav_depth,
+      discount = EXCLUDED.discount,
+      price = EXCLUDED.price,
+      markup_price = EXCLUDED.markup_price,
+      markup_currency = EXCLUDED.markup_currency,
+      price_per_carat = EXCLUDED.price_per_carat,
+      delivered_price = EXCLUDED.delivered_price,
+      lab = EXCLUDED.lab,
+      pdf = EXCLUDED.pdf,
+      video = EXCLUDED.video,
+      image = EXCLUDED.image,
+      videos_image_uri = EXCLUDED.videos_image_uri,
+      videos_frame = EXCLUDED.videos_frame,
+      blue = EXCLUDED.blue,
+      gray = EXCLUDED.gray,
+      min_delivery_days = EXCLUDED.min_delivery_days,
+      max_delivery_days = EXCLUDED.max_delivery_days,
+      country = EXCLUDED.country,
+      mine_of_origin = EXCLUDED.mine_of_origin,
+      canada_mark_eligible = EXCLUDED.canada_mark_eligible,
+      labgrown_type = EXCLUDED.labgrown_type,
+      lg = EXCLUDED.lg,
+      is_returnable = EXCLUDED.is_returnable,
+      is_diavaia = EXCLUDED.is_diavaia,
+      published = EXCLUDED.published;
+  `
 
-    const query = `
-      INSERT INTO natural_colored_diamonds (${escapedFields.join(',')})
-      VALUES ${values
-        .map((row, i) => `(${row.map((_, j) => `$${i * row.length + j + 1}`).join(',')})`)
-        .join(',')}
-      ON CONFLICT (diamond_id) DO NOTHING
-    `
+  const values = batch.flatMap((row) => [
+    row.diamond_id,
+    row.stock_id,
+    row.ReportNo,
+    row.shape,
+    row.fullShape,
+    parseFloat(row.carats || '0'),
+    row.col,
+    row.clar,
+    row.cut,
+    row.pol,
+    row.symm,
+    row.flo,
+    row.floCol,
+    row.eyeClean,
+    row.brown,
+    row.green,
+    row.milky,
+    row.fancyColor,
+    row.fancyOvertone,
+    row.fancyIntensity,
+    row.colorShade,
+    parseFloat(row.length || '0'),
+    parseFloat(row.width || '0'),
+    parseFloat(row.height || '0'),
+    parseFloat(row.depth || '0'),
+    parseFloat(row.table || '0'),
+    row.culet,
+    row.girdle,
+    parseFloat(row.starLength || '0'),
+    parseFloat(row.lowerGirdle || '0'),
+    parseFloat(row.crownHeight || '0'),
+    parseFloat(row.crownAngle || '0'),
+    parseFloat(row.pavAngle || '0'),
+    parseFloat(row.pavHeight || '0'),
+    parseFloat(row.pavDepth || '0'),
+    row.discount,
+    parseFloat(row.price || '0'),
+    parseFloat(row.markup_price || '0'),
+    row.markup_currency,
+    parseFloat(row.price_per_carat || '0'),
+    parseFloat(row.deliveredPrice || '0'),
+    row.lab,
+    row.pdf,
+    row.video,
+    row.image,
+    row.videosImageUri,
+    parseFloat(row.videosFrame || '0'),
+    row.blue,
+    row.gray,
+    parseInt(row.minDeliveryDays || '0'),
+    parseInt(row.maxDeliveryDays || '0'),
+    row.country,
+    row.mine_of_origin,
+    row.canada_mark_eligible === 'TRUE',
+    row.labgrownType,
+    row.lg,
+    row.is_returnable === 'Y',
+    true,
+    true,
+  ])
 
-    const flatValues = values.flat()
-    await client.query(query, flatValues)
-  } catch (err: any) {
-    console.error('❌ Insert batch error:', err.message)
-  } finally {
-    client.release()
-  }
+  await client.query(query, values)
 }

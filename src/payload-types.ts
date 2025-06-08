@@ -110,7 +110,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: number;
+    defaultIDType: string;
   };
   globals: {};
   globalsSelect: {};
@@ -146,7 +146,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
+  id: string;
   civility: 'mx' | 'mr' | 'mrs' | 'ms';
   firstName: string;
   lastName: string;
@@ -411,7 +411,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: number;
+  id: string;
   alt?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -440,8 +440,7 @@ export interface Media {
  * via the `definition` "natural-diamonds".
  */
 export interface NaturalDiamond {
-  id: number;
-  diamond_id: string;
+  id: string;
   stock_id: string;
   report_no: string;
   shape?: string | null;
@@ -508,8 +507,7 @@ export interface NaturalDiamond {
  * via the `definition` "natural-colored-diamonds".
  */
 export interface NaturalColoredDiamond {
-  id: number;
-  diamond_id: string;
+  id: string;
   stock_id: string;
   report_no: string;
   shape?: string | null;
@@ -576,8 +574,7 @@ export interface NaturalColoredDiamond {
  * via the `definition` "laboratory-grown-diamonds".
  */
 export interface LaboratoryGrownDiamond {
-  id: number;
-  diamond_id: string;
+  id: string;
   stock_id: string;
   report_no: string;
   shape?: string | null;
@@ -644,8 +641,7 @@ export interface LaboratoryGrownDiamond {
  * via the `definition` "laboratory-grown-colored-diamonds".
  */
 export interface LaboratoryGrownColoredDiamond {
-  id: number;
-  diamond_id: string;
+  id: string;
   stock_id: string;
   report_no: string;
   shape?: string | null;
@@ -712,7 +708,7 @@ export interface LaboratoryGrownColoredDiamond {
  * via the `definition` "Jewelleries".
  */
 export interface Jewellery {
-  id: number;
+  id: string;
   ref_diavaia: string;
   product_type?: ('Earring' | 'Bracelet' | 'Necklace') | null;
   metal_type?: string | null;
@@ -731,7 +727,7 @@ export interface Jewellery {
  * via the `definition` "product-categories".
  */
 export interface ProductCategory {
-  id: number;
+  id: string;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -741,7 +737,7 @@ export interface ProductCategory {
  * via the `definition` "colors".
  */
 export interface Color {
-  id: number;
+  id: string;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -751,7 +747,7 @@ export interface Color {
  * via the `definition` "cuts".
  */
 export interface Cut {
-  id: number;
+  id: string;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -761,7 +757,7 @@ export interface Cut {
  * via the `definition` "clarities".
  */
 export interface Clarity {
-  id: number;
+  id: string;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -771,7 +767,7 @@ export interface Clarity {
  * via the `definition` "certifications".
  */
 export interface Certification {
-  id: number;
+  id: string;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -781,7 +777,7 @@ export interface Certification {
  * via the `definition` "symmetries".
  */
 export interface Symmetry {
-  id: number;
+  id: string;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -791,7 +787,7 @@ export interface Symmetry {
  * via the `definition` "polishes".
  */
 export interface Polish {
-  id: number;
+  id: string;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -801,7 +797,7 @@ export interface Polish {
  * via the `definition` "fluorescences".
  */
 export interface Fluorescence {
-  id: number;
+  id: string;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -811,7 +807,7 @@ export interface Fluorescence {
  * via the `definition` "girdle-thicknesses".
  */
 export interface GirdleThickness {
-  id: number;
+  id: string;
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -821,76 +817,76 @@ export interface GirdleThickness {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
+  id: string;
   document?:
     | ({
         relationTo: 'users';
-        value: number | User;
+        value: string | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: number | Media;
+        value: string | Media;
       } | null)
     | ({
         relationTo: 'natural-diamonds';
-        value: number | NaturalDiamond;
+        value: string | NaturalDiamond;
       } | null)
     | ({
         relationTo: 'natural-colored-diamonds';
-        value: number | NaturalColoredDiamond;
+        value: string | NaturalColoredDiamond;
       } | null)
     | ({
         relationTo: 'laboratory-grown-diamonds';
-        value: number | LaboratoryGrownDiamond;
+        value: string | LaboratoryGrownDiamond;
       } | null)
     | ({
         relationTo: 'laboratory-grown-colored-diamonds';
-        value: number | LaboratoryGrownColoredDiamond;
+        value: string | LaboratoryGrownColoredDiamond;
       } | null)
     | ({
         relationTo: 'Jewelleries';
-        value: number | Jewellery;
+        value: string | Jewellery;
       } | null)
     | ({
         relationTo: 'product-categories';
-        value: number | ProductCategory;
+        value: string | ProductCategory;
       } | null)
     | ({
         relationTo: 'colors';
-        value: number | Color;
+        value: string | Color;
       } | null)
     | ({
         relationTo: 'cuts';
-        value: number | Cut;
+        value: string | Cut;
       } | null)
     | ({
         relationTo: 'clarities';
-        value: number | Clarity;
+        value: string | Clarity;
       } | null)
     | ({
         relationTo: 'certifications';
-        value: number | Certification;
+        value: string | Certification;
       } | null)
     | ({
         relationTo: 'symmetries';
-        value: number | Symmetry;
+        value: string | Symmetry;
       } | null)
     | ({
         relationTo: 'polishes';
-        value: number | Polish;
+        value: string | Polish;
       } | null)
     | ({
         relationTo: 'fluorescences';
-        value: number | Fluorescence;
+        value: string | Fluorescence;
       } | null)
     | ({
         relationTo: 'girdle-thicknesses';
-        value: number | GirdleThickness;
+        value: string | GirdleThickness;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -900,10 +896,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: string;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -923,7 +919,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
+  id: string;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -986,7 +982,6 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "natural-diamonds_select".
  */
 export interface NaturalDiamondsSelect<T extends boolean = true> {
-  diamond_id?: T;
   stock_id?: T;
   report_no?: T;
   shape?: T;
@@ -1053,7 +1048,6 @@ export interface NaturalDiamondsSelect<T extends boolean = true> {
  * via the `definition` "natural-colored-diamonds_select".
  */
 export interface NaturalColoredDiamondsSelect<T extends boolean = true> {
-  diamond_id?: T;
   stock_id?: T;
   report_no?: T;
   shape?: T;
@@ -1120,7 +1114,6 @@ export interface NaturalColoredDiamondsSelect<T extends boolean = true> {
  * via the `definition` "laboratory-grown-diamonds_select".
  */
 export interface LaboratoryGrownDiamondsSelect<T extends boolean = true> {
-  diamond_id?: T;
   stock_id?: T;
   report_no?: T;
   shape?: T;
@@ -1187,7 +1180,6 @@ export interface LaboratoryGrownDiamondsSelect<T extends boolean = true> {
  * via the `definition` "laboratory-grown-colored-diamonds_select".
  */
 export interface LaboratoryGrownColoredDiamondsSelect<T extends boolean = true> {
-  diamond_id?: T;
   stock_id?: T;
   report_no?: T;
   shape?: T;

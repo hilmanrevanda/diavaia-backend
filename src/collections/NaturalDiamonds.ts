@@ -6,10 +6,9 @@ export const NaturalDiamonds: CollectionConfig = {
     read: () => true,
   },
   admin: {
-    useAsTitle: 'diamond_id',
+    useAsTitle: 'stock_id',
   },
   fields: [
-    { name: 'diamond_id', type: 'text', required: true, unique: true },
     { name: 'stock_id', type: 'text', required: true },
     { name: 'report_no', type: 'text', required: true },
     { name: 'shape', type: 'text' },
@@ -70,9 +69,6 @@ export const NaturalDiamonds: CollectionConfig = {
     { name: 'published', type: 'checkbox', defaultValue: true },
   ],
   indexes: [
-    {
-      fields: ['diamond_id'],
-    },
     {
       fields: ['markup_price'],
     },

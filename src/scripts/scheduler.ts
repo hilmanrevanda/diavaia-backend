@@ -1,26 +1,27 @@
-import { syncDiamonds } from './syncs-diamond'
+import { syncsNaturalDiamonds } from './syncs'
 import { syncsLaboratoryColoredDiamond } from './syncs-laboratory-colored'
 import { syncsLaboratoryDiamond } from './syncs-laboratory-diamond'
-import { syncsColoredDiamond } from './syncs-natural-diamond-colored'
-import { syncs } from './syncs'
+import { syncsNaturalColoredDiamonds } from './syncs-natural-diamond-colored'
+
+async function safeRun(label: string, fn: () => Promise<void>) {
+  try {
+    console.log(`🚧 Start syncing ${label}...`)
+    await fn()
+    console.log(`✅ Finished syncing ${label}`)
+  } catch (err) {
+    console.error(`❌ Failed syncing ${label}:`, err)
+  }
+}
 
 async function main() {
-  let exitCode = 0
+  console.log('🚀 Start syncing all products...')
 
-  try {
-    console.log('🚀 Start syncs all products...')
-    // await syncDiamonds()
-    await syncs()
-    // await syncsLaboratoryDiamond()
-    // await syncsColoredDiamond()
-    // await syncsLaboratoryColoredDiamond()
-    console.log('🎉 Finished sycns all products!')
-  } catch (err) {
-    console.error('❌ Error sync:', err)
-    exitCode = 1
-  } finally {
-    process.exit(exitCode)
-  }
+  await safeRun('natural diamonds', syncsNaturalDiamonds)
+  await safeRun('natural colored diamonds', syncsNaturalColoredDiamonds)
+  await safeRun('lab-grown colored diamonds', syncsLaboratoryColoredDiamond)
+  await safeRun('lab-grown diamonds', syncsLaboratoryDiamond)
+
+  console.log('🎉 Finished syncing all products (with or without errors)')
 }
 
 main()

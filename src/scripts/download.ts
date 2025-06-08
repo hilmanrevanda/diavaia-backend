@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import https from 'https'
 import fs from 'fs'
-import { CSV_PATH, CSV_URL, DATA_DIR } from './config'
 
 export async function downloadCSVWithTimeout(
+  CSV_PATH: any,
+  CSV_URL: any,
+  DATA_DIR: any,
   timeoutMs = 60000,
   maxRetries = 3,
   delayMs = 3000,
@@ -41,9 +44,16 @@ export async function downloadCSVWithTimeout(
         res.pipe(file)
 
         file.on('finish', () => {
-          file.close()
-          console.log('\n✅ CSV downloaded successfully.')
-          resolve(true)
+          file.close(() => {
+            // Tunggu sampai file benar-benar tersedia
+            if (fs.existsSync(CSV_PATH)) {
+              console.log('\n✅ CSV downloaded successfully.')
+              resolve(true)
+            } else {
+              console.error('\n❌ File not found after download finished.')
+              resolve(false)
+            }
+          })
         })
       })
 

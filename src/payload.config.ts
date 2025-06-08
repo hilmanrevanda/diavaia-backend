@@ -1,8 +1,5 @@
 // storage-adapter-import-placeholder
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import {
-  primaryKey,
-} from '@payloadcms/db-postgres/drizzle/pg-core'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
@@ -60,28 +57,14 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: postgresAdapter({
-    // Postgres-specific arguments go here.
-    // `pool` is required.
     pool: {
       connectionString: process.env.DATABASE_URI,
     },
-    afterSchemaInit: [
-      ({ schema, extendTable }) => {
-        extendTable({
-          table: schema.tables.natural_colored_diamonds,
-          extraConfig: (table) => ({
-            new_pk: primaryKey({ columns: [table.diamond_id] }),
-          }),
-        })
-        return schema
-      },
-    ],
+    idType: 'uuid',
+    push: true,
   }),
   sharp,
-  plugins: [
-    payloadCloudPlugin(),
-    // storage-adapter-placeholder
-  ],
+  plugins: [payloadCloudPlugin()],
   graphQL: {
     disable: false,
   },

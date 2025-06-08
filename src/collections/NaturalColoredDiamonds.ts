@@ -3,13 +3,12 @@ import { CollectionConfig } from 'payload'
 export const NaturalColoredDiamonds: CollectionConfig = {
   slug: 'natural-colored-diamonds',
   admin: {
-    useAsTitle: 'diamond_id',
+    useAsTitle: 'stock_id',
   },
   access: {
     read: () => true,
   },
   fields: [
-    { name: 'diamond_id', type: 'text', required: true, unique: true },
     { name: 'stock_id', type: 'text', required: true },
     { name: 'report_no', type: 'text', required: true },
     { name: 'shape', type: 'text' },
