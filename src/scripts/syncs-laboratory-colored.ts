@@ -24,6 +24,14 @@ export const CSV_URL =
   'https://gateway.nivodaapi.net/feeds-api/ftpdownload/fee1444f-166f-4c3a-8323-d3f0aeaac28d'
 
 export async function syncsLaboratoryColoredDiamond() {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true })
+  }
+
+  if (!fs.existsSync(LOGS_DIR)) {
+    fs.mkdirSync(LOGS_DIR, { recursive: true })
+  }
+
   const downloaded = await downloadCSVWithTimeout(CSV_PATH, CSV_URL, DATA_DIR)
   if (!downloaded) return console.error('❌ Download failed. Sync aborted.')
 
