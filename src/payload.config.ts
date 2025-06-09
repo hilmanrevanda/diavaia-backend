@@ -31,7 +31,7 @@ export default buildConfig({
     NaturalColoredDiamonds,
     LaboratoryGrownDiamonds,
     LaboratoryGrownColoredDiamonds,
-    Jewellery
+    Jewellery,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
@@ -43,7 +43,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI,
     },
     idType: 'uuid',
-    push: true,
+    push: false,
   }),
   sharp,
   plugins: [payloadCloudPlugin()],

@@ -7,8 +7,8 @@ export async function downloadCSVWithTimeout(
   CSV_URL: any,
   DATA_DIR: any,
   timeoutMs = 60000,
-  maxRetries = 3,
-  delayMs = 3000,
+  maxRetries = 5,
+  delayMs = 10000,
 ): Promise<boolean> {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     console.log(`📥 Attempt ${attempt} to download CSV...`)
