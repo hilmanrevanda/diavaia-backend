@@ -43,7 +43,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI,
     },
     idType: 'uuid',
-    push: false,
+    push: true,
   }),
   sharp,
   plugins: [payloadCloudPlugin()],

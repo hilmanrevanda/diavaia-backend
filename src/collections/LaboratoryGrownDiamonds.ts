@@ -12,7 +12,6 @@ export const LaboratoryGrownDiamonds: CollectionConfig = {
   fields: [
     { name: 'stock_id', type: 'text', required: true },
     { name: 'report_no', type: 'text', required: true },
-    { name: 'aset', type: 'text', label: 'Aset' },
     { name: 'shape', type: 'text' },
     { name: 'full_shape', type: 'text' },
     { name: 'carats', type: 'number' },

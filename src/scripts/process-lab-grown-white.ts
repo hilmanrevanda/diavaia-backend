@@ -41,7 +41,7 @@ async function insertBatch(batch: any[], client: any, table: string) {
 
   const query = `
     INSERT INTO ${table} (
-      id, stock_id, report_no, aset, shape, full_shape, carats,
+      id, stock_id, report_no, shape, full_shape, carats,
       col, clar, cut, pol, symm, flo, flo_col, eye_clean,
       brown, green, milky, fancy_color, fancy_overtone, fancy_intensity, color_shade,
       length, width, height, depth, "table", culet, girdle,
@@ -64,8 +64,7 @@ async function insertBatch(batch: any[], client: any, table: string) {
       .join(',\n')}
     ON CONFLICT (id) DO UPDATE SET
       stock_id = EXCLUDED.stock_id,
-      report_no = EXCLUDED.certi_no,
-      aset = EXCLUDED.cutwise_media,
+      report_no = EXCLUDED.report_no,
       shape = EXCLUDED.shape,
       full_shape = EXCLUDED.full_shape,
       carats = EXCLUDED.carats,
@@ -127,8 +126,7 @@ async function insertBatch(batch: any[], client: any, table: string) {
   const values = batch.flatMap((row) => [
     row.diamond_id,
     row.stock_id,
-    row.certi_no,
-    row.cutwise_media,
+    row.ReportNo,
     row.shape,
     row.fullShape,
     parseFloat(row.carats || '0'),
