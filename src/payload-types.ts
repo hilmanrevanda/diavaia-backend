@@ -559,7 +559,6 @@ export interface LaboratoryGrownDiamond {
   id: string;
   stock_id: string;
   report_no: string;
-  aset?: string | null;
   shape?: string | null;
   full_shape?: string | null;
   carats?: number | null;
@@ -973,7 +972,6 @@ export interface NaturalColoredDiamondsSelect<T extends boolean = true> {
 export interface LaboratoryGrownDiamondsSelect<T extends boolean = true> {
   stock_id?: T;
   report_no?: T;
-  aset?: T;
   shape?: T;
   full_shape?: T;
   carats?: T;
