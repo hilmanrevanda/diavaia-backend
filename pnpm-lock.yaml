@@ -13,7 +13,7 @@ importers:
         version: 1.3.0-alpha.21
       '@payloadcms/db-mongodb':
         specifier: 3.33.0
-        version: 3.33.0(@aws-sdk/credential-providers@3.826.0)(payload@3.33.0(graphql@16.11.0)(typescript@5.7.3))(socks@2.8.4)
+        version: 3.33.0(@aws-sdk/credential-providers@3.826.0)(payload@3.33.0(graphql@16.11.0)(typescript@5.7.3))
       '@payloadcms/db-postgres':
         specifier: ^3.41.0
         version: 3.41.0(@types/react@19.1.0)(payload@3.33.0(graphql@16.11.0)(typescript@5.7.3))(react@19.1.0)
@@ -22,13 +22,16 @@ importers:
         version: 3.33.0(@types/react@19.1.0)(graphql@16.11.0)(monaco-editor@0.52.2)(next@15.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.33.0(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3)
       '@payloadcms/payload-cloud':
         specifier: 3.33.0
-        version: 3.33.0(encoding@0.1.13)(payload@3.33.0(graphql@16.11.0)(typescript@5.7.3))
+        version: 3.33.0(payload@3.33.0(graphql@16.11.0)(typescript@5.7.3))
       '@payloadcms/richtext-lexical':
         specifier: 3.33.0
         version: 3.33.0(@faceless-ui/modal@3.0.0-beta.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@faceless-ui/scroll-info@2.0.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@payloadcms/next@3.33.0(@types/react@19.1.0)(graphql@16.11.0)(monaco-editor@0.52.2)(next@15.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.33.0(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3))(@types/react@19.1.0)(monaco-editor@0.52.2)(next@15.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.33.0(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3)(yjs@13.6.27)
       authorizenet:
         specifier: ^1.0.10
         version: 1.0.10
+      avatax:
+        specifier: ^25.5.1
+        version: 25.5.1
       axios:
         specifier: ^1.9.0
         version: 1.9.0
@@ -55,7 +58,7 @@ importers:
         version: 16.11.0
       mongodb:
         specifier: ^6.16.0
-        version: 6.17.0(@aws-sdk/credential-providers@3.826.0)(socks@2.8.4)
+        version: 6.17.0(@aws-sdk/credential-providers@3.826.0)
       multer:
         specifier: ^2.0.0
         version: 2.0.1
@@ -1226,8 +1229,8 @@ packages:
   '@mongodb-js/saslprep@1.2.2':
     resolution: {integrity: sha512-EB0O3SCSNRUFk66iRCpI+cXzIjdswfCs7F6nOC3RAGJ7xr5YhaicvsRwJ9eyzYvYRlCSDUO/c7g4yNulxKC1WA==}
 
-  '@napi-rs/wasm-runtime@0.2.10':
-    resolution: {integrity: sha512-bCsCyeZEwVErsGmyPNSzwfwFn4OdxBj0mmv6hOFucB/k81Ojdu68RbZdxYsRQUPc9l6SU5F/cG+bXgWs3oUgsQ==}
+  '@napi-rs/wasm-runtime@0.2.11':
+    resolution: {integrity: sha512-9DPkXtvHydrcOsopiYpUgPHpmj0HWZKMUnL2dZqpvC42lsratuBG06V5ipyno0fUek5VlFsNQ+AcFATSrJXgMA==}
 
   '@next/env@15.3.0':
     resolution: {integrity: sha512-6mDmHX24nWlHOlbwUiAOmMyY7KELimmi+ed8qWcJYjqXeC+G6JzPZ3QosOAfjNwgMIzwhXBiRiCgdh8axTTdTA==}
@@ -1301,11 +1304,6 @@ packages:
   '@nolyfill/is-core-module@1.0.39':
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
-
-  '@payloadcms/db-mongodb@3.33.0':
-    resolution: {integrity: sha512-jAwg0vTfJPhuwhGemy7KymHiLJA47fDIPSBaHWU8FHEqfavjL+SVrdyTttw8p8jdYzQMzaUbEw6b8Se4deA30A==}
-    peerDependencies:
-      payload: 3.33.0
 
   '@payloadcms/db-postgres@3.41.0':
     resolution: {integrity: sha512-+QUmOWjWMRgeabHsaqhUB0VtUun8hamBNUU0xSg90fMzVVzjGTxtW84Xyxl8RzyYrGCkmeqCUf76f7j4IK2oHA==}
@@ -1896,8 +1894,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  acorn@8.14.1:
-    resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
+  acorn@8.15.0:
+    resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -1987,6 +1985,9 @@ packages:
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
+
+  avatax@25.5.1:
+    resolution: {integrity: sha512-mB3IamZfQriE4nHpXI/a82/zdZTd9yBmZghJhEBFXmgzQPHkAYko4c65YExb1KmqCpB7wh5Oe/2KLJf4dUkoiA==}
 
   axe-core@4.10.3:
     resolution: {integrity: sha512-Xm7bpRXnDSX2YE2YFfBk2FnF0ep6tmG7xPh8iHee8MIcrgq762Nkce856dYtJYLkuIoYZvGfTs/PbZhideTcEg==}
@@ -2457,9 +2458,6 @@ packages:
   enabled@2.0.0:
     resolution: {integrity: sha512-AKrN98kuwOzMIdAizXGI86UFBoo26CL21UM763y1h/GMSJ4/OHU9k2YlsmBpyScFo/wbLzWQJBMCW4+IO3/+OQ==}
 
-  encoding@0.1.13:
-    resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
-
   end-of-stream@1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
 
@@ -2895,10 +2893,6 @@ packages:
     resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
     engines: {node: '>= 14'}
 
-  iconv-lite@0.6.3:
-    resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
-    engines: {node: '>=0.10.0'}
-
   ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
 
@@ -2935,10 +2929,6 @@ packages:
   internal-slot@1.1.0:
     resolution: {integrity: sha512-4gd7VpWNQNB4UKKCFFVcp1AVv+FMOgs9NKzjHKusc8jTMhd5eL1NqQqOpE0KzMds804/yHlglp3uxgluOqAPLw==}
     engines: {node: '>= 0.4'}
-
-  ip-address@9.0.5:
-    resolution: {integrity: sha512-zHtQzGojZXTwZTHQqra+ETKd4Sn3vgi7uBmlPoXVWZqYvuKmtI0l/VZTjqGmJY9x88GGOaZ9+G9ES8hC4T4X8g==}
-    engines: {node: '>= 12'}
 
   is-alphabetical@2.0.1:
     resolution: {integrity: sha512-FWyyY60MeTNyeSRpkM2Iry0G9hpr7/9kD40mD/cGQEuilcZYS4okz8SN2Q6rLCJ8gbCt6fN+rC+6tMGS99LaxQ==}
@@ -3111,9 +3101,6 @@ packages:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
     hasBin: true
 
-  jsbn@1.1.0:
-    resolution: {integrity: sha512-4bYVV3aAMtDTTu4+xsDYa6sy9GyJ69/amsu9sYF2zqjiEoZA5xJi3BrfX3uY+/IekIu7MwdObdbDWpoZdBv3/A==}
-
   jsesc@3.1.0:
     resolution: {integrity: sha512-/sM3dO2FOzXjKQhJuo0Q173wf2KOo8t4I8vHy6lF9poUp7bKT0/NHE8fPX23PwfhnykfqnC2xRxOnVw5XuGIaA==}
     engines: {node: '>=6'}
@@ -3138,6 +3125,9 @@ packages:
 
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
+
+  json2typescript@1.6.1:
+    resolution: {integrity: sha512-2zSZMfOF/3ygGuzv5d/BBdxKOjNJKPolce/07HuX/xGHjBEi53ux36IuBr7ZM8kLACcD97XmH23snugJDrMOZA==}
 
   json5@1.0.2:
     resolution: {integrity: sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==}
@@ -3940,9 +3930,6 @@ packages:
     resolution: {integrity: sha512-b3rppTKm9T+PsVCBEOUR46GWI7fdOs00VKZ1+9c1EWDaDMvjQc6tUwuFyIprgGgTcWoVHSKrU8H31ZHA2e0RHA==}
     engines: {node: '>=10'}
 
-  safer-buffer@2.1.2:
-    resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
-
   sanitize-filename@1.6.3:
     resolution: {integrity: sha512-y/52Mcy7aw3gRm7IrcGDFx/bCk4AhRh2eI9luHOQM86nZsqwiRkkq2GekHXBBD+SmPidc8i2PqtYZl+pWJ8Oeg==}
 
@@ -4039,14 +4026,6 @@ packages:
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
 
-  smart-buffer@4.2.0:
-    resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==}
-    engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
-
-  socks@2.8.4:
-    resolution: {integrity: sha512-D3YaD0aRxR3mEcqnidIs7ReYJFVzWdd6fXJYUM8ixcQcJRGTka/b3saV0KflYhyVJXKhb947GndU35SxYNResQ==}
-    engines: {node: '>= 10.0.0', npm: '>= 3.0.0'}
-
   sonic-boom@4.2.0:
     resolution: {integrity: sha512-INb7TM37/mAcsGmc9hyyI6+QR3rR1zVRu36B0NeGXKnOOLiZOfER5SA+N7X7k3yUYRzLWafduTDvJAfDswwEww==}
 
@@ -4077,9 +4056,6 @@ packages:
   split2@4.2.0:
     resolution: {integrity: sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg==}
     engines: {node: '>= 10.x'}
-
-  sprintf-js@1.1.3:
-    resolution: {integrity: sha512-Oo+0REFV59/rz3gfJNKQiBlwfHaSESl1pcGyABQsnnIfWOFt6JNj5gCog2U6MLZ//IGYD+nA8nI+mTShREReaA==}
 
   stable-hash@0.0.5:
     resolution: {integrity: sha512-+L3ccpzibovGXFK+Ap/f8LOS0ahMrHTf3xu7mMLSpEGU0EO9ucaysSylKo9eRDFNhWve/y275iPmIZ4z39a9iA==}
@@ -5856,7 +5832,7 @@ snapshots:
     dependencies:
       sparse-bitfield: 3.0.3
 
-  '@napi-rs/wasm-runtime@0.2.10':
+  '@napi-rs/wasm-runtime@0.2.11':
     dependencies:
       '@emnapi/core': 1.4.3
       '@emnapi/runtime': 1.4.3
@@ -5909,9 +5885,9 @@ snapshots:
 
   '@nolyfill/is-core-module@1.0.39': {}
 
-  '@payloadcms/db-mongodb@3.33.0(@aws-sdk/credential-providers@3.826.0)(payload@3.33.0(graphql@16.11.0)(typescript@5.7.3))(socks@2.8.4)':
+  '@payloadcms/db-mongodb@3.33.0(@aws-sdk/credential-providers@3.826.0)(payload@3.33.0(graphql@16.11.0)(typescript@5.7.3))':
     dependencies:
-      mongoose: 8.9.5(@aws-sdk/credential-providers@3.826.0)(socks@2.8.4)
+      mongoose: 8.9.5(@aws-sdk/credential-providers@3.826.0)
       mongoose-paginate-v2: 1.8.5
       payload: 3.33.0(graphql@16.11.0)(typescript@5.7.3)
       prompts: 2.4.2
@@ -6053,14 +6029,14 @@ snapshots:
       - supports-color
       - typescript
 
-  '@payloadcms/payload-cloud@3.33.0(encoding@0.1.13)(payload@3.33.0(graphql@16.11.0)(typescript@5.7.3))':
+  '@payloadcms/payload-cloud@3.33.0(payload@3.33.0(graphql@16.11.0)(typescript@5.7.3))':
     dependencies:
       '@aws-sdk/client-cognito-identity': 3.826.0
       '@aws-sdk/client-s3': 3.826.0
       '@aws-sdk/credential-providers': 3.826.0
       '@aws-sdk/lib-storage': 3.826.0(@aws-sdk/client-s3@3.826.0)
       '@payloadcms/email-nodemailer': 3.33.0(payload@3.33.0(graphql@16.11.0)(typescript@5.7.3))
-      amazon-cognito-identity-js: 6.3.15(encoding@0.1.13)
+      amazon-cognito-identity-js: 6.3.15
       nodemailer: 6.9.16
       payload: 3.33.0(graphql@16.11.0)(typescript@5.7.3)
     transitivePeerDependencies:
@@ -6784,7 +6760,7 @@ snapshots:
 
   '@unrs/resolver-binding-wasm32-wasi@1.7.11':
     dependencies:
-      '@napi-rs/wasm-runtime': 0.2.10
+      '@napi-rs/wasm-runtime': 0.2.11
     optional: true
 
   '@unrs/resolver-binding-win32-arm64-msvc@1.7.11':
@@ -6796,13 +6772,13 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.7.11':
     optional: true
 
-  acorn-jsx@5.3.2(acorn@8.14.1):
+  acorn-jsx@5.3.2(acorn@8.15.0):
     dependencies:
-      acorn: 8.14.1
+      acorn: 8.15.0
 
   acorn@8.12.1: {}
 
-  acorn@8.14.1: {}
+  acorn@8.15.0: {}
 
   agent-base@7.1.3: {}
 
@@ -6820,12 +6796,12 @@ snapshots:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
-  amazon-cognito-identity-js@6.3.15(encoding@0.1.13):
+  amazon-cognito-identity-js@6.3.15:
     dependencies:
       '@aws-crypto/sha256-js': 1.2.2
       buffer: 4.9.2
       fast-base64-decode: 1.0.0
-      isomorphic-unfetch: 3.1.0(encoding@0.1.13)
+      isomorphic-unfetch: 3.1.0
       js-cookie: 2.2.1
     transitivePeerDependencies:
       - encoding
@@ -6935,6 +6911,15 @@ snapshots:
   available-typed-arrays@1.0.7:
     dependencies:
       possible-typed-array-names: 1.1.0
+
+  avatax@25.5.1:
+    dependencies:
+      '@types/node-fetch': 2.6.12
+      form-data: 4.0.3
+      json2typescript: 1.6.1
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
 
   axe-core@4.10.3: {}
 
@@ -7308,11 +7293,6 @@ snapshots:
 
   enabled@2.0.0: {}
 
-  encoding@0.1.13:
-    dependencies:
-      iconv-lite: 0.6.3
-    optional: true
-
   end-of-stream@1.4.4:
     dependencies:
       once: 1.4.0
@@ -7519,8 +7499,8 @@ snapshots:
       '@typescript-eslint/parser': 8.33.1(eslint@9.28.0)(typescript@5.7.3)
       eslint: 9.28.0
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.31.0)(eslint@9.28.0)
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.28.0)
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint@9.28.0))(eslint@9.28.0)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint@9.28.0))(eslint@9.28.0))(eslint@9.28.0)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.28.0)
       eslint-plugin-react: 7.37.5(eslint@9.28.0)
       eslint-plugin-react-hooks: 5.2.0(eslint@9.28.0)
@@ -7539,7 +7519,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0)(eslint@9.28.0):
+  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint@9.28.0))(eslint@9.28.0):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.1
@@ -7550,22 +7530,22 @@ snapshots:
       tinyglobby: 0.2.14
       unrs-resolver: 1.7.11
     optionalDependencies:
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.28.0)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint@9.28.0))(eslint@9.28.0))(eslint@9.28.0)
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.28.0):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint@9.28.0))(eslint@9.28.0))(eslint@9.28.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.33.1(eslint@9.28.0)(typescript@5.7.3)
       eslint: 9.28.0
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.31.0)(eslint@9.28.0)
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint@9.28.0))(eslint@9.28.0)
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.28.0):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint@9.28.0))(eslint@9.28.0))(eslint@9.28.0):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.9
@@ -7576,7 +7556,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.28.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.28.0)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0)(typescript@5.7.3))(eslint@9.28.0))(eslint@9.28.0))(eslint@9.28.0)
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -7690,8 +7670,8 @@ snapshots:
 
   espree@10.3.0:
     dependencies:
-      acorn: 8.14.1
-      acorn-jsx: 5.3.2(acorn@8.14.1)
+      acorn: 8.15.0
+      acorn-jsx: 5.3.2(acorn@8.15.0)
       eslint-visitor-keys: 4.2.0
 
   esquery@1.6.0:
@@ -7952,11 +7932,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  iconv-lite@0.6.3:
-    dependencies:
-      safer-buffer: 2.1.2
-    optional: true
-
   ieee754@1.2.1: {}
 
   ignore@5.3.2: {}
@@ -7985,12 +7960,6 @@ snapshots:
       es-errors: 1.3.0
       hasown: 2.0.2
       side-channel: 1.1.0
-
-  ip-address@9.0.5:
-    dependencies:
-      jsbn: 1.1.0
-      sprintf-js: 1.1.3
-    optional: true
 
   is-alphabetical@2.0.1: {}
 
@@ -8134,9 +8103,9 @@ snapshots:
 
   isexe@2.0.0: {}
 
-  isomorphic-unfetch@3.1.0(encoding@0.1.13):
+  isomorphic-unfetch@3.1.0:
     dependencies:
-      node-fetch: 2.7.0(encoding@0.1.13)
+      node-fetch: 2.7.0
       unfetch: 4.2.0
     transitivePeerDependencies:
       - encoding
@@ -8164,9 +8133,6 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
-  jsbn@1.1.0:
-    optional: true
-
   jsesc@3.1.0: {}
 
   json-buffer@3.0.1: {}
@@ -8190,6 +8156,8 @@ snapshots:
   json-schema-traverse@1.0.0: {}
 
   json-stable-stringify-without-jsonify@1.0.1: {}
+
+  json2typescript@1.6.1: {}
 
   json5@1.0.2:
     dependencies:
@@ -8550,31 +8518,29 @@ snapshots:
       '@types/whatwg-url': 11.0.5
       whatwg-url: 14.2.0
 
-  mongodb@6.12.0(@aws-sdk/credential-providers@3.826.0)(socks@2.8.4):
+  mongodb@6.12.0(@aws-sdk/credential-providers@3.826.0):
     dependencies:
       '@mongodb-js/saslprep': 1.2.2
       bson: 6.10.4
       mongodb-connection-string-url: 3.0.2
     optionalDependencies:
       '@aws-sdk/credential-providers': 3.826.0
-      socks: 2.8.4
 
-  mongodb@6.17.0(@aws-sdk/credential-providers@3.826.0)(socks@2.8.4):
+  mongodb@6.17.0(@aws-sdk/credential-providers@3.826.0):
     dependencies:
       '@mongodb-js/saslprep': 1.2.2
       bson: 6.10.4
       mongodb-connection-string-url: 3.0.2
     optionalDependencies:
       '@aws-sdk/credential-providers': 3.826.0
-      socks: 2.8.4
 
   mongoose-paginate-v2@1.8.5: {}
 
-  mongoose@8.9.5(@aws-sdk/credential-providers@3.826.0)(socks@2.8.4):
+  mongoose@8.9.5(@aws-sdk/credential-providers@3.826.0):
     dependencies:
       bson: 6.10.4
       kareem: 2.6.3
-      mongodb: 6.12.0(@aws-sdk/credential-providers@3.826.0)(socks@2.8.4)
+      mongodb: 6.12.0(@aws-sdk/credential-providers@3.826.0)
       mpath: 0.9.0
       mquery: 5.0.0
       ms: 2.1.3
@@ -8651,11 +8617,9 @@ snapshots:
 
   node-cron@4.1.0: {}
 
-  node-fetch@2.7.0(encoding@0.1.13):
+  node-fetch@2.7.0:
     dependencies:
       whatwg-url: 5.0.0
-    optionalDependencies:
-      encoding: 0.1.13
 
   nodemailer@6.9.16: {}
 
@@ -9175,9 +9139,6 @@ snapshots:
 
   safe-stable-stringify@2.5.0: {}
 
-  safer-buffer@2.1.2:
-    optional: true
-
   sanitize-filename@1.6.3:
     dependencies:
       truncate-utf8-bytes: 1.0.2
@@ -9320,15 +9281,6 @@ snapshots:
 
   sisteransi@1.0.5: {}
 
-  smart-buffer@4.2.0:
-    optional: true
-
-  socks@2.8.4:
-    dependencies:
-      ip-address: 9.0.5
-      smart-buffer: 4.2.0
-    optional: true
-
   sonic-boom@4.2.0:
     dependencies:
       atomic-sleep: 1.0.0
@@ -9354,9 +9306,6 @@ snapshots:
       memory-pager: 1.5.0
 
   split2@4.2.0: {}
-
-  sprintf-js@1.1.3:
-    optional: true
 
   stable-hash@0.0.5: {}
 
