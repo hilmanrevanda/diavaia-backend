@@ -6,9 +6,10 @@ const shippo = new Shippo({
     shippoApiVersion: "2018-02-08",
 });
 
+// addressFrom [Default]: 88eb1a1791fc43a399c45153e107eb0d
 export const GET = async (req: NextRequest) => {
   // const { name, street1, street2, city, state, zip, country, phone, email} = req;
-  const addressFrom = "c9cb6ec176ea4042b57cbe0c0ba8cc97",
+  const addressFrom = "88eb1a1791fc43a399c45153e107eb0d",
         parcel = "66aa4d058dc84a318edfdfcc4c001355",
         name = "Rahul Sharma",
         street1 = "5th Floor, Shapath V",
