@@ -1,11 +1,11 @@
 import { downloadCSVWithTimeout } from './download'
 import { deleteRemovedProducts } from './cleanupOldProducts'
 import { updateDuckDBFromPostgres } from './updateDuckDB'
-import { syncToPostgres } from './process'
 import fs from 'fs'
 import { parseCSVAndWriteIDs } from './csv'
 import { fileURLToPath } from 'url'
 import path from 'path'
+import { syncToPostgres } from './process-lab-grown-white'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
