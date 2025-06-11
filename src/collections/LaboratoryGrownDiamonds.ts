@@ -14,6 +14,8 @@ export const LaboratoryGrownDiamonds: CollectionConfig = {
     { name: 'report_no', type: 'text', required: true },
     { name: 'shape', type: 'text' },
     { name: 'full_shape', type: 'text' },
+    { name: 'aset', label: 'Aset', type: 'text' },
+    { name: 'aset_link', label: 'Aset Link', type: 'text' },
     { name: 'carats', type: 'number' },
     { name: 'col', type: 'text' },
     { name: 'clar', type: 'text' },

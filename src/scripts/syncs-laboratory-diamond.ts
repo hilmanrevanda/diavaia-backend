@@ -6,6 +6,7 @@ import { parseCSVAndWriteIDs } from './csv'
 import { fileURLToPath } from 'url'
 import path from 'path'
 import { syncToPostgres } from './process-lab-grown-white'
+import { parse } from 'fast-csv'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -22,6 +23,28 @@ export const TEMP_ID_PATH = path.join(DATA_DIR, TEMP_ID_FILENAME)
 
 export const CSV_URL =
   'https://gateway.nivodaapi.net/feeds-api/ftpdownload/12042853-d999-4793-9cc5-d6fda64e3ad3'
+
+type CutwiseMap = Map<string, string>
+
+async function loadCutwiseData(path: string): Promise<CutwiseMap> {
+  return new Promise((resolve, reject) => {
+    const cutwiseMap: CutwiseMap = new Map()
+
+    fs.createReadStream(path)
+      .pipe(parse({ headers: true }))
+      .on('error', reject)
+      .on('data', (row) => {
+        const certNo = row['Certi No']?.trim()
+        const mediaLink = row['Cutwise Media']?.trim()
+        if (certNo && mediaLink) {
+          cutwiseMap.set(certNo, mediaLink)
+        }
+      })
+      .on('end', () => {
+        resolve(cutwiseMap)
+      })
+  })
+}
 
 export async function syncsLaboratoryDiamond() {
   if (!fs.existsSync(DATA_DIR)) {
@@ -46,8 +69,10 @@ export async function syncsLaboratoryDiamond() {
     return
   }
 
+  const cutwiseMap = await loadCutwiseData('./USA_stock_list.xlsx')
+
   try {
-    await syncToPostgres(CSV_PATH, 'laboratory_grown_diamonds')
+    await syncToPostgres(CSV_PATH, 'laboratory_grown_diamonds', cutwiseMap)
     await deleteRemovedProducts('laboratory_grown_diamonds')
     await updateDuckDBFromPostgres('laboratory_grown_diamonds')
     console.log('✅ Sync completed successfully.')

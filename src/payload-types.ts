@@ -561,6 +561,8 @@ export interface LaboratoryGrownDiamond {
   report_no: string;
   shape?: string | null;
   full_shape?: string | null;
+  aset?: string | null;
+  aset_link?: string | null;
   carats?: number | null;
   col?: string | null;
   clar?: string | null;
@@ -974,6 +976,8 @@ export interface LaboratoryGrownDiamondsSelect<T extends boolean = true> {
   report_no?: T;
   shape?: T;
   full_shape?: T;
+  aset?: T;
+  aset_link?: T;
   carats?: T;
   col?: T;
   clar?: T;

@@ -6,7 +6,13 @@ import { POSTGRES_URL } from './config'
 
 const pool = new Pool({ connectionString: POSTGRES_URL })
 
-export async function syncToPostgres(csvPath: string, table: string): Promise<void> {
+type CutwiseMap = Map<string, string>
+
+export async function syncToPostgres(
+  csvPath: string,
+  table: string,
+  cutwiseMap: CutwiseMap,
+): Promise<void> {
   console.log('⏳ Syncing CSV to PostgreSQL...')
   const client = await pool.connect()
   const BATCH_SIZE = 500
@@ -20,6 +26,12 @@ export async function syncToPostgres(csvPath: string, table: string): Promise<vo
         reject(error)
       })
       .on('data', (row) => {
+        const reportNo = row['ReportNo']?.trim()
+        const media = cutwiseMap.get(reportNo)
+
+        row['aset'] = media ? 'yes' : 'no'
+        row['aset_link'] = media ?? '-'
+
         rows.push(row)
         if (rows.length >= BATCH_SIZE) {
           const batch = [...rows]
@@ -51,7 +63,7 @@ async function insertBatch(batch: any[], client: any, table: string) {
       lab, pdf, video, image, videos_image_uri, videos_frame,
       blue, gray, min_delivery_days, max_delivery_days,
       country, mine_of_origin, canada_mark_eligible,
-      labgrown_type, lg, is_returnable, is_diavaia, published
+      labgrown_type, lg, is_returnable, is_diavaia, published, aset, aset_link
     ) VALUES
     ${batch
       .map(
@@ -121,6 +133,8 @@ async function insertBatch(batch: any[], client: any, table: string) {
       is_returnable = EXCLUDED.is_returnable,
       is_diavaia = EXCLUDED.is_diavaia,
       published = EXCLUDED.published;
+      aset = EXCLUDED.aset,
+      aset_link = EXCLUDED.aset_link
   `
 
   const values = batch.flatMap((row) => [
@@ -183,6 +197,8 @@ async function insertBatch(batch: any[], client: any, table: string) {
     row.is_returnable === 'Y',
     true,
     true,
+    row.aset,
+    row.aset_link,
   ])
 
   await client.query(query, values)
