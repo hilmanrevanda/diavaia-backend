@@ -26,8 +26,7 @@ export async function syncToPostgres(
         reject(error)
       })
       .on('data', (row) => {
-        const reportNo = row.ReportNo?.trim()
-        const media = cutwiseMap.get(reportNo)
+        const media = cutwiseMap.get(row.ReportNo?.trim())
 
         row.aset = media ? 'yes' : 'no'
         row.aset_link = media ?? '-'
@@ -68,9 +67,9 @@ async function insertBatch(batch: any[], client: any, table: string) {
     ${batch
       .map(
         (_, i) =>
-          `(${Array(59)
+          `(${Array(61)
             .fill(0)
-            .map((_, j) => `$${i * 59 + j + 1}`)
+            .map((_, j) => `$${i * 61 + j + 1}`)
             .join(', ')})`,
       )
       .join(',\n')}
