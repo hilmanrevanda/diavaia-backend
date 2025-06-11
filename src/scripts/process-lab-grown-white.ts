@@ -29,8 +29,8 @@ export async function syncToPostgres(
         const reportNo = row.ReportNo?.trim()
         const media = cutwiseMap.get(reportNo)
 
-        row['aset'] = media ? 'yes' : 'no'
-        row['aset_link'] = media ?? '-'
+        row.aset = media ? 'yes' : 'no'
+        row.aset_link = media ?? '-'
 
         rows.push(row)
         if (rows.length >= BATCH_SIZE) {

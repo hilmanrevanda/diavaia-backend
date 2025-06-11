@@ -44,6 +44,12 @@ async function loadCutwiseData(path: string): Promise<CutwiseMap> {
     }
   })
 
+  Array.from(cutwiseMap.entries())
+    .slice(0, 10)
+    .forEach(([key, value], i) => {
+      console.log(`${i + 1}. ${key} → ${value}`)
+    })
+
   return cutwiseMap
 }
 
