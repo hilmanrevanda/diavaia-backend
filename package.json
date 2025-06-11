@@ -26,6 +26,7 @@
     "@payloadcms/payload-cloud": "3.33.0",
     "@payloadcms/richtext-lexical": "3.33.0",
     "authorizenet": "^1.0.10",
+    "avatax": "^25.5.1",
     "axios": "^1.9.0",
     "basic-ftp": "^5.0.5",
     "cross-env": "^7.0.3",
