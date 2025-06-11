@@ -26,7 +26,7 @@ export async function syncToPostgres(
         reject(error)
       })
       .on('data', (row) => {
-        const reportNo = row['ReportNo']?.trim()
+        const reportNo = row.ReportNo?.trim()
         const media = cutwiseMap.get(reportNo)
 
         row['aset'] = media ? 'yes' : 'no'
@@ -132,9 +132,9 @@ async function insertBatch(batch: any[], client: any, table: string) {
       lg = EXCLUDED.lg,
       is_returnable = EXCLUDED.is_returnable,
       is_diavaia = EXCLUDED.is_diavaia,
-      published = EXCLUDED.published;
+      published = EXCLUDED.published,
       aset = EXCLUDED.aset,
-      aset_link = EXCLUDED.aset_link
+      aset_link = EXCLUDED.aset_link;
   `
 
   const values = batch.flatMap((row) => [
