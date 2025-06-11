@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { downloadCSVWithTimeout } from './download'
 import { deleteRemovedProducts } from './cleanupOldProducts'
 import { updateDuckDBFromPostgres } from './updateDuckDB'
@@ -6,7 +7,7 @@ import { parseCSVAndWriteIDs } from './csv'
 import { fileURLToPath } from 'url'
 import path from 'path'
 import { syncToPostgres } from './process-lab-grown-white'
-import { parse } from 'fast-csv'
+import * as XLSX from 'xlsx'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -27,23 +28,24 @@ export const CSV_URL =
 type CutwiseMap = Map<string, string>
 
 async function loadCutwiseData(path: string): Promise<CutwiseMap> {
-  return new Promise((resolve, reject) => {
-    const cutwiseMap: CutwiseMap = new Map()
+  const cutwiseMap: CutwiseMap = new Map()
 
-    fs.createReadStream(path)
-      .pipe(parse({ headers: true }))
-      .on('error', reject)
-      .on('data', (row) => {
-        const certNo = row['Certi No']?.trim()
-        const mediaLink = row['Cutwise Media']?.trim()
-        if (certNo && mediaLink) {
-          cutwiseMap.set(certNo, mediaLink)
-        }
-      })
-      .on('end', () => {
-        resolve(cutwiseMap)
-      })
-  })
+  const workbook = XLSX.readFile(path)
+  const sheetName = workbook.SheetNames[0]
+  const sheet = workbook.Sheets[sheetName]
+
+  const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' })
+
+  for (const row of rows as any[]) {
+    const certNo = row['Certi No']?.toString().trim()
+    const mediaLink = row['Cutwise Media']?.toString().trim()
+
+    if (certNo && mediaLink) {
+      cutwiseMap.set(certNo, mediaLink)
+    }
+  }
+
+  return cutwiseMap
 }
 
 export async function syncsLaboratoryDiamond() {
