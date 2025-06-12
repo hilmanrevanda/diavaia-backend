@@ -442,7 +442,7 @@ export interface Order {
   };
   carts?:
     | {
-        id: string | null;
+        product_id: string;
         title: string;
         color: string;
         cut: string;
@@ -452,6 +452,7 @@ export interface Order {
         max_delivery_days: number;
         type: string;
         lab: string;
+        id?: string | null;
       }[]
     | null;
   updatedAt: string;
@@ -904,7 +905,7 @@ export interface OrdersSelect<T extends boolean = true> {
   carts?:
     | T
     | {
-        id?: T;
+        product_id?: T;
         title?: T;
         color?: T;
         cut?: T;
@@ -914,6 +915,7 @@ export interface OrdersSelect<T extends boolean = true> {
         max_delivery_days?: T;
         type?: T;
         lab?: T;
+        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;
