@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    orders: Order;
     'natural-diamonds': NaturalDiamond;
     'natural-colored-diamonds': NaturalColoredDiamond;
     'laboratory-grown-diamonds': LaboratoryGrownDiamond;
@@ -82,6 +83,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
     'natural-diamonds': NaturalDiamondsSelect<false> | NaturalDiamondsSelect<true>;
     'natural-colored-diamonds': NaturalColoredDiamondsSelect<false> | NaturalColoredDiamondsSelect<true>;
     'laboratory-grown-diamonds': LaboratoryGrownDiamondsSelect<false> | LaboratoryGrownDiamondsSelect<true>;
@@ -419,6 +421,44 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: string;
+  order_id: string;
+  status: string;
+  email: string;
+  amounts: number;
+  biling_informations: {
+    address: string;
+    address_2?: string | null;
+    first_name: string;
+    last_name: string;
+    country: string;
+    provinces: string;
+    city: string;
+    zip_code: string;
+    phone: string;
+  };
+  carts?:
+    | {
+        id: string | null;
+        title: string;
+        color: string;
+        cut: string;
+        clarity: string;
+        price: string;
+        imageUrl: string;
+        max_delivery_days: number;
+        type: string;
+        lab: string;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "natural-diamonds".
  */
 export interface NaturalDiamond {
@@ -722,6 +762,10 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
+        relationTo: 'orders';
+        value: string | Order;
+      } | null)
+    | ({
         relationTo: 'natural-diamonds';
         value: string | NaturalDiamond;
       } | null)
@@ -834,6 +878,45 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders_select".
+ */
+export interface OrdersSelect<T extends boolean = true> {
+  order_id?: T;
+  status?: T;
+  email?: T;
+  amounts?: T;
+  biling_informations?:
+    | T
+    | {
+        address?: T;
+        address_2?: T;
+        first_name?: T;
+        last_name?: T;
+        country?: T;
+        provinces?: T;
+        city?: T;
+        zip_code?: T;
+        phone?: T;
+      };
+  carts?:
+    | T
+    | {
+        id?: T;
+        title?: T;
+        color?: T;
+        cut?: T;
+        clarity?: T;
+        price?: T;
+        imageUrl?: T;
+        max_delivery_days?: T;
+        type?: T;
+        lab?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

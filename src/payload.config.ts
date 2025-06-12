@@ -13,6 +13,7 @@ import { NaturalDiamonds } from './collections/NaturalDiamonds'
 import { NaturalColoredDiamonds } from './collections/NaturalColoredDiamonds'
 import { LaboratoryGrownColoredDiamonds } from './collections/LaboratoryGrownColoredDiamonds'
 import { LaboratoryGrownDiamonds } from './collections/LaboratoryGrownDiamonds'
+import { Orders } from './collections/Orders'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -27,6 +28,7 @@ export default buildConfig({
   collections: [
     Users,
     Media,
+    Orders,
     NaturalDiamonds,
     NaturalColoredDiamonds,
     LaboratoryGrownDiamonds,
