@@ -118,8 +118,8 @@ export const Orders: CollectionConfig = {
       type: 'array',
       fields: [
         {
-          name: 'id',
-          label: 'ID',
+          name: 'product_id',
+          label: 'Product ID',
           type: 'text',
           required: true,
         },
