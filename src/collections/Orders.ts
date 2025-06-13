@@ -177,6 +177,11 @@ export const Orders: CollectionConfig = {
           type: 'text',
           required: true,
         },
+        {
+          name: 'hsCode',
+          label: 'HS Code',
+          type: 'text',
+        },
       ],
     },
   ],

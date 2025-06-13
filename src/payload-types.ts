@@ -452,6 +452,7 @@ export interface Order {
         max_delivery_days: number;
         type: string;
         lab: string;
+        hsCode?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -915,6 +916,7 @@ export interface OrdersSelect<T extends boolean = true> {
         max_delivery_days?: T;
         type?: T;
         lab?: T;
+        hsCode?: T;
         id?: T;
       };
   updatedAt?: T;
