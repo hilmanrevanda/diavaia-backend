@@ -37,7 +37,7 @@ export const POST = async (req: NextRequest) => {
           // From default address
           line1: '7043 Rue Saint Denis',
           city: 'Montreal',
-          region: 'BC',
+          region: 'QC',
           country: 'CA',
           postalCode: 'H2S 2S5',
         },
