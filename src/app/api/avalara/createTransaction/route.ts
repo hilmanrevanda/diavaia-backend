@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest) => {
     // Parse JSON body
     const requestJson = await req.json()
     const taxDocument = {
-      lines: requestJson.cart.map((item: any) => ({
+      lines: requestJson.carts.map((item: any) => ({
         ...item,
         amount: item.price,
         quantity: 1,
