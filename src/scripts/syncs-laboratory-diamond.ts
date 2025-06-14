@@ -54,18 +54,13 @@ async function loadEthereal(path: string): Promise<EtherealMap> {
     const ethereal_aset = row.getCell(30).value?.toString().trim()
 
     if (certNo) {
-      const values = [ethereal_cut, ethereal_vid_1, ethereal_vid_2, ethereal_aset]
-      const nonEmptyCount = values.filter((v) => v && v !== '').length
-
-      if (nonEmptyCount >= 4) {
-        const mediaLink = {
-          cut: ethereal_cut ?? '-',
-          vid_1: ethereal_vid_1 ?? '-',
-          vid_2: ethereal_vid_2 ?? '-',
-          aset: ethereal_aset ?? '-',
-        }
-        cutwiseMap.set(certNo, mediaLink)
+      const mediaLink = {
+        cut: ethereal_cut ?? '-',
+        vid_1: ethereal_vid_1 ?? '-',
+        vid_2: ethereal_vid_2 ?? '-',
+        aset: ethereal_aset ?? '-',
       }
+      cutwiseMap.set(certNo, mediaLink)
     }
   })
 
