@@ -88,7 +88,6 @@ function runAuthorizeNetTransaction(
 export const POST = async (req: NextRequest) => {
   // Validate and typecast the incoming body
   const { cardNumber, expirationDate, cardCode, amount } = await req.json()
-  console.log({ cardNumber, expirationDate, cardCode, amount });
 
   if (
     typeof cardNumber !== "string" ||

@@ -53,9 +53,6 @@ export const POST = async (req: NextRequest) => {
       commit: false, // for calculation only
       currencyCode: 'USD',
     }
-
-    console.log(taxDocument)
-
     // Create transaction (sales tax)
     const result = await client.createTransaction({ model: taxDocument })
     return new Response(JSON.stringify({ data: result }), {

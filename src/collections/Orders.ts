@@ -191,7 +191,7 @@ export const Orders: CollectionConfig = {
       method: 'post',
       handler: async (req: any) => {
         const data = (await req.json()) as any
-        console.log(data)
+        
         await req.payload.create({
           collection: 'orders',
           data: {
