@@ -11,13 +11,15 @@ export const POST = async (req: NextRequest) => {
     billingDetails,
     cardDetails,
     cartDetails,
-    coupon
+    coupon,
+    sameAsShippingAddress
   }: {
     currencyCode: string;
     coupon?: string;
     billingDetails: BillingDetails;
     cardDetails: CardDetails;
     cartDetails: CartDetails;
+    sameAsShippingAddress: string;
   } = await req.json();  
   
   try {
