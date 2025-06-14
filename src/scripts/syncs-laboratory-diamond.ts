@@ -25,8 +25,47 @@ export const CSV_URL =
   'https://gateway.nivodaapi.net/feeds-api/ftpdownload/12042853-d999-4793-9cc5-d6fda64e3ad3'
 
 const EXCEL_PATH = path.resolve(__dirname, 'USA_stock_list.xlsx')
+const EXCEL_ETHEREAL_PATH = path.resolve(__dirname, 'stock_list.xlsx')
+
+type EtherealMap = Map<
+  string,
+  {
+    cut: string
+    vid_1: string
+    vid_2: string
+    aset: string
+  }
+>
 
 type CutwiseMap = Map<string, string>
+
+async function loadEthereal(path: string): Promise<EtherealMap> {
+  const workbook = new ExcelJS.Workbook()
+  await workbook.xlsx.readFile(path)
+  const worksheet = workbook.worksheets[0]
+
+  const cutwiseMap: EtherealMap = new Map()
+
+  worksheet.eachRow((row) => {
+    const certNo = row.getCell(25).value?.toString().trim()
+    const ethereal_cut = row.getCell(11).value?.toString().trim()
+    const ethereal_vid_1 = row.getCell(28).value?.toString().trim()
+    const ethereal_vid_2 = row.getCell(29).value?.toString().trim()
+    const ethereal_aset = row.getCell(30).value?.toString().trim()
+
+    if (certNo) {
+      const mediaLink = {
+        cut: ethereal_cut ?? '-',
+        vid_1: ethereal_vid_1 ?? '-',
+        vid_2: ethereal_vid_2 ?? '-',
+        aset: ethereal_aset ?? '-',
+      }
+      cutwiseMap.set(certNo, mediaLink)
+    }
+  })
+
+  return cutwiseMap
+}
 
 async function loadCutwiseData(path: string): Promise<CutwiseMap> {
   const workbook = new ExcelJS.Workbook()
@@ -56,6 +95,7 @@ export async function syncsLaboratoryDiamond() {
     fs.mkdirSync(LOGS_DIR, { recursive: true })
   }
   const cutwiseMap = await loadCutwiseData(EXCEL_PATH)
+  const etherealMap = await loadEthereal(EXCEL_ETHEREAL_PATH)
 
   const downloaded = await downloadCSVWithTimeout(CSV_PATH, CSV_URL, DATA_DIR)
   if (!downloaded) return console.error('❌ Download failed. Sync aborted.')
@@ -72,7 +112,7 @@ export async function syncsLaboratoryDiamond() {
   }
 
   try {
-    await syncToPostgres(CSV_PATH, 'laboratory_grown_diamonds', cutwiseMap)
+    await syncToPostgres(CSV_PATH, 'laboratory_grown_diamonds', cutwiseMap, etherealMap)
     await deleteRemovedProducts('laboratory_grown_diamonds')
     await updateDuckDBFromPostgres('laboratory_grown_diamonds')
     console.log('✅ Sync completed successfully.')
