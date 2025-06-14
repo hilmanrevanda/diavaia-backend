@@ -45,7 +45,7 @@ export async function syncToPostgres(
         row.ethereal_vid_2 = ethereal?.vid_2 ?? '-'
         row.ethereal_aset = ethereal?.aset ?? '-'
         row.gdc_aset = media ? 'yes' : 'no'
-        row.gdc_set_link = media ?? '-'
+        row.gdc_aset_link = media ?? '-'
 
         rows.push(row)
         if (rows.length >= BATCH_SIZE) {
